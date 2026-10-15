@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="540" height="1820" viewBox="0 0 540 1820" role="img" aria-labelledby="title desc">
+<title id="title">How CCTV annotations become training examples</title><desc id="desc">Illustration of the reported label rule. The original dataset contains video and XML event type, start time and duration, rather than written question-answer pairs. A hypothetical falling event from 20 to 30 seconds gives normal labels at 15 and 35 seconds and a falling label at 25 seconds. Fixed anomaly and event questions are paired with frames and XML-derived targets. These are conceptual examples, not exported training records. The reported L3 result uses one frame per decision and only falling and abandoned-object event data.</desc>
+<defs><marker id="arrow-bg" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#10171f" stroke-width="1.5"/></marker><marker id="arrow-panel" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#19232e" stroke-width="1.5"/></marker><marker id="arrow-line" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#344354" stroke-width="1.5"/></marker><marker id="arrow-ink" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#edf3fa" stroke-width="1.5"/></marker><marker id="arrow-muted" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#a2b2c3" stroke-width="1.5"/></marker><marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#70baff" stroke-width="1.5"/></marker><marker id="arrow-green" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#83dfb0" stroke-width="1.5"/></marker><marker id="arrow-purple" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#c0adff" stroke-width="1.5"/></marker><marker id="arrow-orange" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#ffbf79" stroke-width="1.5"/></marker></defs>
+<rect width="540" height="1820" rx="20" fill="#10171f"/>
+<text x="32" y="36" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" text-anchor="start">04 / CCTV DECISION MODEL</text>
+<text x="32" y="78" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" text-anchor="start">Where training labels come from</text>
+<text x="32" y="112" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start">Video + event times → frame + question + answer</text>
+<rect x="28" y="144" width="484" height="182" rx="14" fill="#19232e" stroke="#70baff" stroke-width="1.5"/>
+<circle cx="61" cy="175" r="13" fill="#70baff"/>
+<text x="61" y="180" fill="#10171f" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">1</text>
+<text x="84" y="182" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" text-anchor="start">Original CCTV data</text>
+<rect x="48" y="208" width="122" height="82" rx="6" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<path d="M56 276 L162 276" fill="none" stroke="#344354" stroke-width="2"/>
+<path d="M56 275 L56 222 L76 222 L76 275" fill="none" stroke="#344354" stroke-width="2"/>
+<circle cx="123.64" cy="242.44" r="4" fill="#70baff"/>
+<path d="M123.64 248.44 l0 14 l-8 12 M123.64 262.44 l9 12 M123.64 251.44 l-9 6 M123.64 251.44 l9 6" fill="none" stroke="#70baff" stroke-width="2"/>
+<text x="196" y="237" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="700" text-anchor="start">Video + XML</text>
+<text x="196" y="271" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start">No written Q&amp;A</text>
+<rect x="28" y="350" width="484" height="150" rx="14" fill="#19232e" stroke="#c0adff" stroke-width="1.5"/>
+<text x="48" y="385" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="start">ILLUSTRATIVE XML ANNOTATION</text>
+<text x="48" y="427" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="700" text-anchor="start">Event: falling</text>
+<text x="48" y="469" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start">Start 20 s  ·  Duration 10 s</text>
+<path d="M270 504 L270 536" fill="none" stroke="#c0adff" stroke-width="2" marker-end="url(#arrow-purple)"/>
+<rect x="28" y="550" width="484" height="226" rx="14" fill="#19232e" stroke="#344354" stroke-width="1.5"/>
+<circle cx="61" cy="580" r="13" fill="#70baff"/>
+<text x="61" y="585" fill="#10171f" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">2</text>
+<text x="84" y="587" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" text-anchor="start">Map each frame to its time</text>
+<rect x="72" y="640" width="396" height="20" rx="6" fill="#344354" stroke="none" stroke-width="1.5"/>
+<rect x="204.0" y="640" width="132.0" height="20" rx="5" fill="#c0adff" stroke="none" stroke-width="1.5"/>
+<text x="270.0" y="622" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" text-anchor="middle">falling</text>
+<path d="M72.0 664 L72.0 675" fill="none" stroke="#a2b2c3" stroke-width="1"/>
+<text x="72.0" y="698" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle">10 s</text>
+<path d="M204.0 664 L204.0 675" fill="none" stroke="#a2b2c3" stroke-width="1"/>
+<text x="204.0" y="698" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle">20 s</text>
+<path d="M336.0 664 L336.0 675" fill="none" stroke="#a2b2c3" stroke-width="1"/>
+<text x="336.0" y="698" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle">30 s</text>
+<path d="M468.0 664 L468.0 675" fill="none" stroke="#a2b2c3" stroke-width="1"/>
+<text x="468.0" y="698" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle">40 s</text>
+<circle cx="138.0" cy="650" r="6" fill="#70baff"/>
+<path d="M138.0 712 L138.0 731" fill="none" stroke="#70baff" stroke-width="2" marker-end="url(#arrow-blue)"/>
+<text x="138.0" y="756" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" text-anchor="middle">15 s</text>
+<circle cx="270.0" cy="650" r="6" fill="#ffbf79"/>
+<path d="M270.0 712 L270.0 731" fill="none" stroke="#ffbf79" stroke-width="2" marker-end="url(#arrow-orange)"/>
+<text x="270.0" y="756" fill="#ffbf79" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" text-anchor="middle">25 s</text>
+<circle cx="402.0" cy="650" r="6" fill="#70baff"/>
+<path d="M402.0 712 L402.0 731" fill="none" stroke="#70baff" stroke-width="2" marker-end="url(#arrow-blue)"/>
+<text x="402.0" y="756" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" text-anchor="middle">35 s</text>
+<circle cx="61" cy="813" r="13" fill="#83dfb0"/>
+<text x="61" y="818" fill="#10171f" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">3</text>
+<text x="84" y="820" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" text-anchor="start">Add the two fixed questions</text>
+<rect x="28" y="844" width="484" height="210" rx="14" fill="#19232e" stroke="#70baff" stroke-width="1.5"/>
+<rect x="48" y="866" width="118" height="78" rx="6" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<path d="M56 930 L158 930" fill="none" stroke="#344354" stroke-width="2"/>
+<path d="M56 929 L56 880 L76 880 L76 929" fill="none" stroke="#344354" stroke-width="2"/>
+<circle cx="121.16" cy="898.76" r="4" fill="#70baff"/>
+<path d="M121.16 904.76 l0 14 l-8 12 M121.16 918.76 l9 12 M121.16 907.76 l-9 6 M121.16 907.76 l9 6" fill="none" stroke="#70baff" stroke-width="2"/>
+<text x="192" y="895" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" text-anchor="start">Frame at 15 s</text>
+<text x="192" y="927" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="start">Outside event</text>
+<text x="48" y="986" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start">Abnormal now?</text>
+<rect x="332" y="960" width="156" height="34" rx="7" fill="#10171f" stroke="#70baff" stroke-width="1.5"/>
+<text x="410.0" y="983" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">NO</text>
+<text x="48" y="1030" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start">Which event?</text>
+<rect x="332" y="1004" width="156" height="34" rx="7" fill="#10171f" stroke="#70baff" stroke-width="1.5"/>
+<text x="410.0" y="1027" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">normal</text>
+<rect x="28" y="1078" width="484" height="210" rx="14" fill="#19232e" stroke="#ffbf79" stroke-width="1.5"/>
+<rect x="48" y="1100" width="118" height="78" rx="6" fill="#203040" stroke="#ffbf79" stroke-width="1.5"/>
+<path d="M56 1164 L158 1164" fill="none" stroke="#344354" stroke-width="2"/>
+<path d="M56 1163 L56 1114 L76 1114 L76 1163" fill="none" stroke="#344354" stroke-width="2"/>
+<circle cx="133.16" cy="1150.76" r="4" fill="#ffbf79"/>
+<path d="M127.16 1150.76 h-15 l-11 3 M112.16 1150.76 l-8 -5" fill="none" stroke="#ffbf79" stroke-width="2"/>
+<text x="192" y="1129" fill="#ffbf79" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" text-anchor="start">Frame at 25 s</text>
+<text x="192" y="1161" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="start">Inside event</text>
+<text x="48" y="1220" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start">Abnormal now?</text>
+<rect x="332" y="1194" width="156" height="34" rx="7" fill="#10171f" stroke="#ffbf79" stroke-width="1.5"/>
+<text x="410.0" y="1217" fill="#ffbf79" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">YES</text>
+<text x="48" y="1264" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start">Which event?</text>
+<rect x="332" y="1238" width="156" height="34" rx="7" fill="#10171f" stroke="#ffbf79" stroke-width="1.5"/>
+<text x="410.0" y="1261" fill="#ffbf79" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">falling</text>
+<rect x="28" y="1312" width="484" height="210" rx="14" fill="#19232e" stroke="#70baff" stroke-width="1.5"/>
+<rect x="48" y="1334" width="118" height="78" rx="6" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<path d="M56 1398 L158 1398" fill="none" stroke="#344354" stroke-width="2"/>
+<path d="M56 1397 L56 1348 L76 1348 L76 1397" fill="none" stroke="#344354" stroke-width="2"/>
+<circle cx="121.16" cy="1366.76" r="4" fill="#70baff"/>
+<path d="M121.16 1372.76 l0 14 l-8 12 M121.16 1386.76 l9 12 M121.16 1375.76 l-9 6 M121.16 1375.76 l9 6" fill="none" stroke="#70baff" stroke-width="2"/>
+<text x="192" y="1363" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" text-anchor="start">Frame at 35 s</text>
+<text x="192" y="1395" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="start">Outside event</text>
+<text x="48" y="1454" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start">Abnormal now?</text>
+<rect x="332" y="1428" width="156" height="34" rx="7" fill="#10171f" stroke="#70baff" stroke-width="1.5"/>
+<text x="410.0" y="1451" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">NO</text>
+<text x="48" y="1498" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="400" text-anchor="start">Which event?</text>
+<rect x="332" y="1472" width="156" height="34" rx="7" fill="#10171f" stroke="#70baff" stroke-width="1.5"/>
+<text x="410.0" y="1495" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">normal</text>
+<rect x="28" y="1562" width="484" height="132" rx="14" fill="#201f32" stroke="#c0adff" stroke-width="1.5"/>
+<text x="48" y="1597" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="start">ONE TRAINING ITEM</text>
+<text x="48" y="1636" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" text-anchor="start">Frame + fixed question → GT answer</text>
+<text x="48" y="1670" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="start">XML supplies the label, not model input</text>
+<text x="32" y="1734" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" text-anchor="start">Reported L3: one frame per decision</text>
+<text x="32" y="1767" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="start">Data: falling + abandoned object</text>
+<text x="32" y="1800" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start">Example times and frames · prompts shortened</text>
+</svg>

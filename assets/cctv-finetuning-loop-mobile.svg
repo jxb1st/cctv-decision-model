@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="540" height="2070" viewBox="0 0 540 2070" role="img" aria-labelledby="title desc">
+<title id="title">How the reported CCTV fine-tune updates Laya-Vision</title><desc id="desc">The experiment report describes single-frame RLCD fine-tuning of the decision head and last four language layers, with the vision encoder frozen. Image and question enter the model; XML-derived targets feed the training objective only. A conceptual update loop is shown without measured probabilities. The pinned upstream VLM objective combines cross-entropy and a policy-gradient term, but the CCTV run&#x27;s loss coefficients and schedule have not been audited. Temperature fitting was attempted on held-out training videos; the reported calibration remained poor. Testing uses separate test videos.</desc>
+<defs><marker id="arrow-bg" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#10171f" stroke-width="1.5"/></marker><marker id="arrow-panel" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#19232e" stroke-width="1.5"/></marker><marker id="arrow-line" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#344354" stroke-width="1.5"/></marker><marker id="arrow-ink" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#edf3fa" stroke-width="1.5"/></marker><marker id="arrow-muted" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#a2b2c3" stroke-width="1.5"/></marker><marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#70baff" stroke-width="1.5"/></marker><marker id="arrow-green" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#83dfb0" stroke-width="1.5"/></marker><marker id="arrow-purple" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#c0adff" stroke-width="1.5"/></marker><marker id="arrow-orange" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#ffbf79" stroke-width="1.5"/></marker></defs>
+<rect width="540" height="2070" rx="20" fill="#10171f"/>
+<text x="32" y="36" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" text-anchor="start">05 / CCTV DECISION MODEL</text>
+<text x="32" y="78" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" text-anchor="start">What changes during fine-tuning?</text>
+<text x="32" y="112" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start">Reported L3 · single-frame training · XML-derived labels</text>
+<rect x="28" y="144" width="484" height="156" rx="14" fill="#19232e" stroke="#c0adff" stroke-width="1.5"/>
+<rect x="48" y="170" width="118" height="78" rx="6" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<path d="M56 234 L158 234" fill="none" stroke="#344354" stroke-width="2"/>
+<path d="M56 233 L56 184 L76 184 L76 233" fill="none" stroke="#344354" stroke-width="2"/>
+<circle cx="133.16" cy="220.76" r="4" fill="#70baff"/>
+<path d="M127.16 220.76 h-15 l-11 3 M112.16 220.76 l-8 -5" fill="none" stroke="#70baff" stroke-width="2"/>
+<text x="194" y="194" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" text-anchor="start">Frame + question</text>
+<text x="194" y="228" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start">“Abnormal now?”</text>
+<text x="48" y="278" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start">Label travels separately to the training objective</text>
+<path d="M270 304 L270 336" fill="none" stroke="#c0adff" stroke-width="2" marker-end="url(#arrow-purple)"/>
+<rect x="28" y="350" width="484" height="460" rx="14" fill="#19232e" stroke="#83dfb0" stroke-width="1.5"/>
+<text x="48" y="385" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" text-anchor="start">LAYA-VISION · 201M</text>
+<rect x="48" y="407" width="444" height="56" rx="8" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<text x="64" y="442" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" text-anchor="start">Vision encoder</text>
+<text x="476" y="442" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="end">FROZEN</text>
+<text x="48" y="497" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start">Language layers</text>
+<rect x="48.0" y="515" width="85.6" height="27" rx="4" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<text x="90.8" y="534" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">1</text>
+<rect x="137.6" y="515" width="85.6" height="27" rx="4" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<text x="180.39999999999998" y="534" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">2</text>
+<rect x="227.2" y="515" width="85.6" height="27" rx="4" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<text x="270.0" y="534" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">3</text>
+<rect x="316.79999999999995" y="515" width="85.6" height="27" rx="4" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<text x="359.59999999999997" y="534" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">4</text>
+<rect x="406.4" y="515" width="85.6" height="27" rx="4" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<text x="449.2" y="534" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">5</text>
+<rect x="48.0" y="550" width="85.6" height="27" rx="4" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<text x="90.8" y="569" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">6</text>
+<rect x="137.6" y="550" width="85.6" height="27" rx="4" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<text x="180.39999999999998" y="569" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">7</text>
+<rect x="227.2" y="550" width="85.6" height="27" rx="4" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<text x="270.0" y="569" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">8</text>
+<rect x="316.79999999999995" y="550" width="85.6" height="27" rx="4" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<text x="359.59999999999997" y="569" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">9</text>
+<rect x="406.4" y="550" width="85.6" height="27" rx="4" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<text x="449.2" y="569" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">10</text>
+<rect x="48.0" y="585" width="85.6" height="27" rx="4" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<text x="90.8" y="604" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">11</text>
+<rect x="137.6" y="585" width="85.6" height="27" rx="4" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<text x="180.39999999999998" y="604" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">12</text>
+<rect x="227.2" y="585" width="85.6" height="27" rx="4" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<text x="270.0" y="604" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">13</text>
+<rect x="316.79999999999995" y="585" width="85.6" height="27" rx="4" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<text x="359.59999999999997" y="604" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">14</text>
+<rect x="406.4" y="585" width="85.6" height="27" rx="4" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<text x="449.2" y="604" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">15</text>
+<rect x="48.0" y="620" width="85.6" height="27" rx="4" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<text x="90.8" y="639" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">16</text>
+<rect x="137.6" y="620" width="85.6" height="27" rx="4" fill="#413426" stroke="#ffbf79" stroke-width="1.5"/>
+<text x="180.39999999999998" y="639" fill="#ffbf79" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">17</text>
+<rect x="227.2" y="620" width="85.6" height="27" rx="4" fill="#413426" stroke="#ffbf79" stroke-width="1.5"/>
+<text x="270.0" y="639" fill="#ffbf79" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">18</text>
+<rect x="316.79999999999995" y="620" width="85.6" height="27" rx="4" fill="#413426" stroke="#ffbf79" stroke-width="1.5"/>
+<text x="359.59999999999997" y="639" fill="#ffbf79" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">19</text>
+<rect x="406.4" y="620" width="85.6" height="27" rx="4" fill="#413426" stroke="#ffbf79" stroke-width="1.5"/>
+<text x="449.2" y="639" fill="#ffbf79" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">20</text>
+<rect x="48" y="672" width="444" height="56" rx="8" fill="#413426" stroke="#ffbf79" stroke-width="1.5"/>
+<text x="64" y="708" fill="#ffbf79" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" text-anchor="start">Decision head</text>
+<text x="476" y="708" fill="#ffbf79" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="end">UPDATE</text>
+<text x="48" y="762" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="start">Blue: fixed weights</text>
+<text x="48" y="793" fill="#ffbf79" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="start">Orange: last 4 layers + head</text>
+<path d="M270 814 L270 846" fill="none" stroke="#83dfb0" stroke-width="2" marker-end="url(#arrow-green)"/>
+<rect x="28" y="860" width="484" height="150" rx="14" fill="#19232e" stroke="#83dfb0" stroke-width="1.5"/>
+<text x="48" y="897" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="start">MODEL OUTPUT</text>
+<text x="48" y="940" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" text-anchor="start">Probability of each answer</text>
+<text x="48" y="978" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start">No</text>
+<rect x="90" y="963" width="70.2" height="17" rx="3" fill="#83dfb0" stroke="none" stroke-width="1.5"/>
+<text x="272" y="978" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start">Yes</text>
+<rect x="314" y="963" width="143.0" height="17" rx="3" fill="#83dfb0" stroke="none" stroke-width="1.5"/>
+<path d="M270 1014 L270 1046" fill="none" stroke="#83dfb0" stroke-width="2" marker-end="url(#arrow-green)"/>
+<rect x="28" y="1060" width="484" height="184" rx="14" fill="#19232e" stroke="#ffbf79" stroke-width="1.5"/>
+<text x="48" y="1097" fill="#ffbf79" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="start">TRAINING OBJECTIVE</text>
+<text x="48" y="1139" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="700" text-anchor="start">Compare predictions with targets</text>
+<rect x="48" y="1170" width="176" height="34" rx="7" fill="#10171f" stroke="#c0adff" stroke-width="1.5"/>
+<text x="136.0" y="1193" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" text-anchor="middle">GT: YES</text>
+<path d="M244 1187 L278 1187" fill="none" stroke="#c0adff" stroke-width="2" marker-end="url(#arrow-purple)"/>
+<text x="300" y="1194" fill="#ffbf79" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" text-anchor="start">Loss / reward</text>
+<rect x="28" y="1268" width="484" height="102" rx="14" fill="#413426" stroke="#ffbf79" stroke-width="1.5"/>
+<text x="48" y="1308" fill="#ffbf79" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" text-anchor="start">Update orange weights</text>
+<text x="48" y="1345" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="400" text-anchor="start">Repeat over balanced training samples</text>
+<path d="M28 1318 H12 V698 H28" fill="none" stroke="#ffbf79" stroke-width="2" marker-end="url(#arrow-orange)"/>
+<rect x="28" y="1396" width="484" height="236" rx="14" fill="#201f32" stroke="#c0adff" stroke-width="1.5" stroke-dasharray="6 5"/>
+<text x="48" y="1431" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" text-anchor="start">REPORTED METHOD: RLCD</text>
+<text x="48" y="1472" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" text-anchor="start">Pinned upstream objective</text>
+<text x="48" y="1512" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" text-anchor="start">Cross-entropy</text>
+<text x="48" y="1546" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" text-anchor="start">+ policy-gradient term</text>
+<text x="48" y="1585" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="start">CCTV run coefficients and schedule:</text>
+<text x="48" y="1616" fill="#ffbf79" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="start">not yet verified from its training script</text>
+<text x="32" y="1674" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" text-anchor="start">AFTER WEIGHT UPDATES</text>
+<rect x="28" y="1694" width="484" height="130" rx="14" fill="#19232e" stroke="#c0adff" stroke-width="1.5"/>
+<text x="48" y="1733" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" text-anchor="start">Held-out train videos</text>
+<text x="48" y="1772" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start">Fit temperature → adjust probability scale</text>
+<text x="48" y="1806" fill="#ffbf79" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start">Reported calibration remained poor</text>
+<path d="M270 1828 L270 1854" fill="none" stroke="#83dfb0" stroke-width="2" marker-end="url(#arrow-green)"/>
+<rect x="28" y="1868" width="484" height="120" rx="14" fill="#19232e" stroke="#83dfb0" stroke-width="1.5"/>
+<text x="48" y="1907" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="700" text-anchor="start">Separate test videos</text>
+<text x="48" y="1945" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" text-anchor="start">Measure detection + calibration</text>
+<text x="48" y="1974" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start">Test annotations are for evaluation</text>
+<text x="32" y="2026" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="start">Supervision: temporal labels → frame targets</text>
+<text x="32" y="2056" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start">Schematic probability bars · no measured values</text>
+</svg>
