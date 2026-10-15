@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CCTV decision model (Laya-Vision levels 1–3 vs Qwen3.8-27B) — Interactive Model Experiments</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="exp-header">
+    <a href="https://jxb1st.github.io/interactive_model_panel/" class="back-link">← Back to Interactive Model Experiments</a>
+    <div class="exp-title-row">
+      <span class="card-icon c3">CD</span>
+      <div>
+        <h1>CCTV decision model — typed anomaly decisions from frames (Laya-Vision levels 1–3 vs Qwen3.8-27B)</h1>
+        <div class="exp-meta">
+          <time datetime="2026-10-14">2026-10-14</time>
+          <span class="status in-progress">in-progress</span>
+          <span class="tag">CCTV</span><span class="tag">anomaly detection</span><span class="tag">decision model</span><span class="tag">Laya-Vision</span><span class="tag">ETRI</span>
+        </div>
+      </div>
+    </div>
+    <p class="exp-summary">First pass at the mentor&#x27;s decision-model proposal on the ETRI CCTV dataset: calibrated typed anomaly decisions (noul + choice) from frames with Laya-Vision (201M), zero-shot on single frames (Level 1) and 4-frame windows (Level 2), fine-tuned on the ETRI temporal ground truth (Level 3), against Qwen3.8-27B answering the same typed questions per frame. Two of five classes so far (abandoned_object, falling; 125 videos). Zero-shot Laya-Vision is at chance (frame AUC 0.51–0.59); 30 minutes of fine-tuning on one MIG slice brings the 1-frame model to AUC 0.73 on 41 test videos, level with Qwen3.8-27B (0.71 on its 12 videos) and ahead of it in event recall at a 1 % false-positive budget (39 % vs 25 %), at 150 ms per decision.</p>
+  </header>
+
+  <nav class="exp-toc" data-toc aria-label="Sections"></nav>
+
+  <section class="exp-section"><h2 id="overview">Overview</h2>
+    <p>The proposal replaces "a large video VLM describes the scene" with a small <em>decision model</em>: the model is given
+    a state (one or several frames) and typed questions, and returns calibrated probabilities in one forward pass, without
+    generating text. This experiment runs the first three levels of that proposal on the ETRI CCTV dataset and compares them
+    with a large VLM asked the same typed questions.</p>
+    <ul><li>Level 1: <strong>Laya-Vision</strong> (SmolVLM-256M backbone + decision head, 201M parameters) on single frames, zero-shot.</li><li>Level 2: the same model on a window of the last 4 frames (4 s of context), zero-shot.</li><li>Level 3: Laya-Vision fine-tuned on the ETRI train split with the repository's RLCD objective, single-frame and 4-frame variants.</li><li>Reference: <strong>Qwen3.8-27B</strong> answering the same questions as lettered choices; the distribution is the softmax over the letter logits (the vidjev protocol).</li></ul>
+    <p class="table-note">No footage is shown on this page: the ETRI videos are not public. Score curves, metrics and prompts only.</p>
+  </section>
+
+  <section class="exp-section"><h2 id="research-question">Research Question</h2>
+    <p>Can a 200M-parameter typed decision model, run on every frame of a CCTV stream, separate annotated abnormal events
+    from normal footage, and how far is it from a 27B VLM on the same questions? Does a short temporal window help, and does
+    fine-tuning on the ETRI temporal ground truth close the gap?</p>
+  </section>
+
+  <section class="exp-section"><h2 id="setup">Experimental Setup</h2>
+    <dl class="facts">
+      <dt>Data</dt><dd>ETRI_CCTV_dataset_20261008, classes available at build time: abandoned_object, falling. 125 videos
+        (84 train / 41 test; test = video number divisible by 3), 12.9 h of 1080p30 footage, one annotated event per video
+        (XML: type, subtype, start mm:ss, duration s) plus scene tags. Frames sampled at 1 fps, 640×360 JPEG, the same frames for every model.</dd>
+      <dt>Label</dt><dd>Frame label = 1 inside the XML event span, else 0. For abandoned objects only the 20 s act is annotated; the object
+        left behind afterwards counts as normal.</dd>
+      <dt>Models</dt><dd>Laya-Vision <code>thaitea/laya-vision</code> @ f2fe3c1 (CC BY-NC-SA 4.0 weights); Qwen3.8-27B @ 1d4bf0f, BF16,
+        non-thinking mode.</dd>
+      <dt>Questions</dt><dd>Two typed questions per decision: <code>anomaly</code> (noul: P(yes)) and <code>event</code> (6-way choice:
+        normal + 5 classes). Anomaly score = the noul; secondary score = 1 − P(normal).</dd>
+      <dt>Metrics</dt><dd>Frame-level AUC and AP over all scored test frames; per-class AUC inside that class's videos; ECE (15 bins);
+        event recall / median delay / false-alarm onsets per hour at thresholds 0.5, 0.7, 0.9; wall-clock ms per decision.</dd>
+      <dt>Hardware</dt><dd>Laya-Vision: one H200 MIG slice (1g.18gb), torch 2.6 cu124, transformers 5.17. Qwen3.8-27B: one full H200,
+        transformers 5.17 (reference PyTorch kernels for the gated delta-net layers).</dd>
+    </dl>
+  </section>
+
+  <section class="exp-section"><h2 id="method">Method / Pipeline</h2>
+    <ol class="pipeline"><li>Index videos + XML; split by video number</li><li>Sample 1 fps frames (640×360)</li>
+      <li>Per frame (or last-4-frame window): typed questions → P(anomaly), P(event type)</li><li>Fine-tune Laya-Vision on train frames (balanced pos/neg, RLCD loss), refit temperatures on held-out train videos</li>
+      <li>Score test frames; frame AUC, event metrics, calibration</li></ol>
+    <p>Window decisions are attributed to the latest frame. Fine-tuning trains the decision head and the last 4 language-model layers;
+    each training frame contributes one noul example (anomaly label) and one choice example (class inside the span, <code>normal</code> outside).</p>
+  </section>
+
+  <section class="exp-section"><h2 id="prompts">Prompts</h2>
+    <div class="prompt user"><div class="prompt-head">Typed questions (Laya-Vision; native <code>noul</code> / <code>choice</code> heads)</div><pre class="prompt-body">{
+ &quot;anomaly&quot;: {
+  &quot;type&quot;: &quot;noul&quot;,
+  &quot;instructions&quot;: &quot;Is an abnormal or suspicious event happening in this CCTV footage right now (a fight, a person falling, an object being abandoned, loitering, or an intrusion)?&quot;
+ },
+ &quot;event&quot;: {
+  &quot;type&quot;: &quot;choice&quot;,
+  &quot;instructions&quot;: &quot;What is happening in this CCTV footage?&quot;,
+  &quot;criteria&quot;: {
+   &quot;normal&quot;: &quot;nothing unusual: people walking by, standing briefly, or an empty scene&quot;,
+   &quot;fight&quot;: &quot;two or more people fighting or physically attacking each other&quot;,
+   &quot;falling&quot;: &quot;a person falls or collapses to the ground&quot;,
+   &quot;abandoned_object&quot;: &quot;a person puts down a bag, box or other object and walks away leaving it behind&quot;,
+   &quot;loitering&quot;: &quot;a person lingers or wanders around the same place for a long time without a clear purpose&quot;,
+   &quot;intrusion&quot;: &quot;a person climbs over a fence or wall, or enters a closed or restricted area&quot;
+  }
+ }
+}</pre></div>
+    <div class="prompt variant"><div class="prompt-head">State note given with the frames</div><pre class="prompt-body">outdoor CCTV camera, one frame
+outdoor CCTV camera, 4 consecutive frames 1 s apart, oldest first; judge the latest frame</pre></div>
+    <div class="prompt user"><div class="prompt-head">Qwen3.8-27B rendering of the same questions (letter logits, first answer token)</div><pre class="prompt-body">Is an abnormal or suspicious event happening in this CCTV footage right now (a fight, a person falling, an object being abandoned, loitering, or an intrusion)?
+A) yes
+B) no
+Answer with a single letter.
+
+What is happening in this CCTV footage?
+A) normal: nothing unusual: people walking by, standing briefly, or an empty scene
+B) fight: two or more people fighting or physically attacking each other
+C) falling: a person falls or collapses to the ground
+D) abandoned_object: a person puts down a bag, box or other object and walks away leaving it behind
+E) loitering: a person lingers or wanders around the same place for a long time without a clear purpose
+F) intrusion: a person climbs over a fence or wall, or enters a closed or restricted area
+Answer with a single letter.</pre></div>
+  </section>
+
+  <section class="exp-section"><h2 id="results">Quantitative Results</h2>
+    <p>Common test frames scored by every run (4385 frames).
+    AUC / AP / ECE use the anomaly noul; per-class AUC is computed within that class's test videos only; ms = median wall-clock per decision
+    (Laya-Vision on one MIG slice, Qwen on a full H200). The secondary score 1 − P(normal) and the all-frames numbers are in the expandable tables.</p>
+    <div class="table-wrap"><table class="results"><thead><tr><th>Run</th><th class="num">AUC</th><th class="num">AP</th><th class="num">ECE</th><th class="num">recall @1 % FPR</th><th class="num">alarms/h @1 %</th><th class="num">recall @5 % FPR</th><th class="num">ms</th></tr></thead><tbody><tr><td>L1 · Laya-Vision zero-shot, 1 frame</td><td class="num">0.512</td><td class="num">0.059</td><td class="num">0.159</td><td class="num">0.08</td><td class="num">23.5</td><td class="num">0.50</td><td class="num">150</td></tr><tr><td>L2 · Laya-Vision zero-shot, 4 frames</td><td class="num">0.566</td><td class="num">0.082</td><td class="num">0.064</td><td class="num">0.17</td><td class="num">13.9</td><td class="num">0.33</td><td class="num">526</td></tr><tr><td>L3 · Laya-Vision fine-tuned, 1 frame</td><td class="num">0.692</td><td class="num">0.246</td><td class="num">0.360</td><td class="num">0.42</td><td class="num">25.3</td><td class="num">0.58</td><td class="num">150</td></tr><tr><td>Reference · Qwen3.8-27B typed questions, 1 frame</td><td class="num best">0.706</td><td class="num">0.269</td><td class="num">0.093</td><td class="num">0.25</td><td class="num">1.7</td><td class="num">0.33</td><td class="num">220</td></tr></tbody></table></div>
+    <p>Per-class frame AUC (anomaly noul), computed inside each class's test videos:</p>
+    <div class="table-wrap"><table class="results"><thead><tr><th>Run</th><th class="num">abandoned_object</th><th class="num">falling</th></tr></thead><tbody><tr><td>L1 · Laya-Vision zero-shot, 1 frame</td><td class="num">0.544</td><td class="num">0.476</td></tr><tr><td>L2 · Laya-Vision zero-shot, 4 frames</td><td class="num">0.620</td><td class="num">0.499</td></tr><tr><td>L3 · Laya-Vision fine-tuned, 1 frame</td><td class="num">0.577</td><td class="num">0.810</td></tr><tr><td>Reference · Qwen3.8-27B typed questions, 1 frame</td><td class="num">0.541</td><td class="num">0.839</td></tr></tbody></table></div>
+    <p class="table-note">Event recall: an event counts as detected if any second inside its span scores ≥ threshold. Because the runs' score scales differ,
+      the threshold is chosen per run as the best one that flags at most 1 % (resp. 5 %) of normal seconds (frame false-positive rate); "false alarms / h" is the
+      number of alarm onsets per hour of normal footage at that 1 % operating point. Fixed thresholds (0.5 / 0.7 / 0.9) are in the expandable tables below.</p>
+    <details class="expand"><summary>All thresholds and per-class numbers</summary><div class="expand-body"><pre class="code" data-lang="markdown"># cctv-decision-model — metrics
+
+Frame label = inside the XML event span. 4385 frames common to all runs.
+
+## Common frames (like-for-like)
+
+| run | frames | videos | AUC noul | AP noul | ECE noul | AUC 1-P(normal) | AUC combined | type acc in span | normal rate outside | ms/decision |
+|---|---|---|---|---|---|---|---|---|---|---|
+| laya_ft_w1 | 4385 | 12 | 0.692 | 0.246 | 0.360 | 0.679 | 0.694 | 0.345 | 0.916 | 150 |
+| laya_zs_w1 | 4385 | 12 | 0.512 | 0.059 | 0.159 | 0.474 | 0.478 | 0.187 | 0.345 | 150 |
+| laya_zs_w4 | 4385 | 12 | 0.566 | 0.082 | 0.064 | 0.469 | 0.500 | 0.278 | 0.351 | 526 |
+| qwen38_w1 | 4385 | 12 | 0.706 | 0.269 | 0.093 | 0.684 | 0.706 | 0.179 | 0.993 | 220 |
+
+### Per-class AUC (noul), common frames (like-for-like)
+
+| run | abandoned_object | falling | fight | intrusion | loitering |
+|---|---|---|---|---|---|
+| laya_ft_w1 | 0.577 | 0.810 | — | — | — |
+| laya_zs_w1 | 0.544 | 0.476 | — | — | — |
+| laya_zs_w4 | 0.620 | 0.499 | — | — | — |
+| qwen38_w1 | 0.541 | 0.839 | — | — | — |
+
+### Event detection (noul), common frames (like-for-like)
+
+| run | thr | recall | median delay s | false alarms / h |
+|---|---|---|---|---|
+| laya_ft_w1 | 0.5 | 0.75 | 1.0 | 297.0 |
+| laya_ft_w1 | 0.7 | 0.08 | 12.0 | 0.9 |
+| laya_ft_w1 | 0.9 | 0.00 | — | 0.0 |
+| laya_zs_w1 | 0.5 | 0.50 | 0.5 | 149.8 |
+| laya_zs_w1 | 0.7 | 0.25 | 4.0 | 54.0 |
+| laya_zs_w1 | 0.9 | 0.00 | — | 0.0 |
+| laya_zs_w4 | 0.5 | 0.08 | 7.0 | 7.8 |
+| laya_zs_w4 | 0.7 | 0.08 | 11.0 | 0.0 |
+| laya_zs_w4 | 0.9 | 0.00 | — | 0.0 |
+| qwen38_w1 | 0.5 | 0.50 | 3.5 | 71.4 |
+| qwen38_w1 | 0.7 | 0.33 | 7.0 | 34.8 |
+| qwen38_w1 | 0.9 | 0.25 | 0.0 | 1.7 |
+
+### Event recall at a frame false-positive-rate budget (noul, best threshold per run), common frames (like-for-like)
+
+| run | recall @ FPR &lt;= 1% | thr | false alarms / h | median delay s | recall @ FPR &lt;= 5% | thr | false alarms / h | median delay s |
+|---|---|---|---|---|---|---|---|---|
+| laya_ft_w1 | 0.42 | 0.636 | 25.3 | 5.0 | 0.58 | 0.574 | 117.6 | 1.0 |
+| laya_zs_w1 | 0.08 | 0.756 | 23.5 | 4.0 | 0.50 | 0.667 | 73.2 | 1.0 |
+| laya_zs_w4 | 0.17 | 0.426 | 13.9 | 3.5 | 0.33 | 0.237 | 61.0 | 1.5 |
+| qwen38_w1 | 0.25 | 0.883 | 1.7 | 0.0 | 0.33 | 0.706 | 34.8 | 7.0 |
+
+## All frames of each run
+
+| run | frames | videos | AUC noul | AP noul | ECE noul | AUC 1-P(normal) | AUC combined | type acc in span | normal rate outside | ms/decision |
+|---|---|---|---|---|---|---|---|---|---|---|
+| laya_ft_w1 | 15149 | 41 | 0.732 | 0.323 | 0.350 | 0.744 | 0.748 | 0.493 | 0.891 | 150 |
+| laya_zs_w1 | 15149 | 41 | 0.586 | 0.089 | 0.128 | 0.540 | 0.579 | 0.216 | 0.360 | 150 |
+| laya_zs_w4 | 15149 | 41 | 0.594 | 0.108 | 0.047 | 0.517 | 0.580 | 0.212 | 0.398 | 527 |
+| qwen38_w1 | 4385 | 12 | 0.706 | 0.269 | 0.093 | 0.684 | 0.706 | 0.179 | 0.993 | 220 |
+
+### Per-class AUC (noul), all frames of each run
+
+| run | abandoned_object | falling | fight | intrusion | loitering |
+|---|---|---|---|---|---|
+| laya_ft_w1 | 0.564 | 0.759 | — | — | — |
+| laya_zs_w1 | 0.567 | 0.589 | — | — | — |
+| laya_zs_w4 | 0.617 | 0.589 | — | — | — |
+| qwen38_w1 | 0.541 | 0.839 | — | — | — |
+
+### Event detection (noul), all frames of each run
+
+| run | thr | recall | median delay s | false alarms / h |
+|---|---|---|---|---|
+| laya_ft_w1 | 0.5 | 0.85 | 0.0 | 244.8 |
+| laya_ft_w1 | 0.7 | 0.15 | 9.0 | 2.0 |
+| laya_ft_w1 | 0.9 | 0.00 | — | 0.0 |
+| laya_zs_w1 | 0.5 | 0.51 | 2.0 | 89.1 |
+| laya_zs_w1 | 0.7 | 0.32 | 6.0 | 49.5 |
+| laya_zs_w1 | 0.9 | 0.00 | — | 0.0 |
+| laya_zs_w4 | 0.5 | 0.20 | 5.5 | 17.9 |
+| laya_zs_w4 | 0.7 | 0.07 | 11.0 | 6.4 |
+| laya_zs_w4 | 0.9 | 0.00 | — | 0.0 |
+| qwen38_w1 | 0.5 | 0.50 | 3.5 | 71.4 |
+| qwen38_w1 | 0.7 | 0.33 | 7.0 | 34.8 |
+| qwen38_w1 | 0.9 | 0.25 | 0.0 | 1.7 |
+
+### Event recall at a frame false-positive-rate budget (noul, best threshold per run), all frames of each run
+
+| run | recall @ FPR &lt;= 1% | thr | false alarms / h | median delay s | recall @ FPR &lt;= 5% | thr | false alarms / h | median delay s |
+|---|---|---|---|---|---|---|---|---|
+| laya_ft_w1 | 0.39 | 0.648 | 18.6 | 1.0 | 0.68 | 0.596 | 93.9 | 0.0 |
+| laya_zs_w1 | 0.02 | 0.830 | 16.6 | 1.0 | 0.41 | 0.632 | 65.8 | 3.0 |
+| laya_zs_w4 | 0.12 | 0.652 | 10.5 | 10.0 | 0.44 | 0.234 | 43.4 | 3.0 |
+| qwen38_w1 | 0.25 | 0.883 | 1.7 | 0.0 | 0.33 | 0.706 | 34.8 | 7.0 |
+</pre></div></details>
+  </section>
+
+  <section class="exp-section"><h2 id="visualizations">Visualizations</h2>
+    <figure class="fig"><img src="assets/auc_by_class.png" alt="auc_by_class"><figcaption>Frame AUC inside each class&#x27;s test videos (common frames). Classes whose archives have not arrived are empty.</figcaption></figure><figure class="fig"><img src="assets/auc_summary.png" alt="auc_summary"><figcaption>Frame-level AUC of the anomaly noul on the test frames scored by every run (12 videos, 4,385 frames). Dashed line = chance.</figcaption></figure><figure class="fig"><img src="assets/event_recall_vs_fpr.png" alt="event_recall_vs_fpr"><figcaption>Event recall against the fraction of normal seconds under alarm while sweeping the threshold (common frames). Dotted lines: the 1 % and 5 % budgets used in the results table.</figcaption></figure><figure class="fig"><img src="assets/reliability.png" alt="reliability"><figcaption>Reliability of P(anomaly) on all frames of each run (bins with ≥ 20 frames). Diagonal = perfect calibration; the fine-tuned model&#x27;s scores collapse into 0.3–0.7.</figcaption></figure>
+  </section>
+
+  <section class="exp-section"><h2 id="qualitative">Qualitative Examples</h2>
+    <p>Score traces for test videos (first two of each class). The annotated span is shaded; a good detector rises inside it and stays low elsewhere.</p>
+    <div class="media-grid"><figure class="fig"><img src="assets/timeline_abandoned_object_0003.png" alt="P(anomaly) over time for abandoned_object_0003"><figcaption>abandoned_object_0003: P(anomaly) per second for every run; green = annotated event span.</figcaption></figure><figure class="fig"><img src="assets/timeline_abandoned_object_0006.png" alt="P(anomaly) over time for abandoned_object_0006"><figcaption>abandoned_object_0006: P(anomaly) per second for every run; green = annotated event span.</figcaption></figure><figure class="fig"><img src="assets/timeline_falling_0903.png" alt="P(anomaly) over time for falling_0903"><figcaption>falling_0903: P(anomaly) per second for every run; green = annotated event span.</figcaption></figure><figure class="fig"><img src="assets/timeline_falling_0906.png" alt="P(anomaly) over time for falling_0906"><figcaption>falling_0906: P(anomaly) per second for every run; green = annotated event span.</figcaption></figure></div>
+  </section>
+
+  <section class="exp-section"><h2 id="observations">Observations</h2>
+    <ul><li><strong>Zero-shot Laya-Vision is a coin flip.</strong> Frame AUC 0.51 (1 frame) / 0.57 (4 frames) on the 4,385 common frames and 0.59 on all 41 test videos; P(anomaly) wanders between 0.1 and 0.6 whatever is in the frame. This matches the model card: the released checkpoint is a base for fine-tuning, not a zero-shot detector.</li><li><strong>The 4-frame window does not help zero-shot</strong> and costs 3.5× the time (527 vs 150 ms per decision on a MIG slice): the scores only get smoother and lower. The fine-tuned 4-frame variant is still running.</li><li><strong>Fine-tuning is what makes the model.</strong> 80 train videos (23,550 frames, balanced sampling, 3,300 steps, ~30 min on 1/7 of an H200, decision head + last 4 LM layers) lift the 1-frame model to AUC 0.73 on all 41 test videos (0.69 on the common frames), next to Qwen3.8-27B's 0.71, with a model 135× smaller that answers in 150 ms on a MIG slice (Qwen: 220 ms on a full H200).</li><li><strong>At a 1 % frame false-positive budget the fine-tuned model finds more events than Qwen</strong>: 39 % of the 41 test events (42 % of the 12 common ones) vs 25 %; at 5 % it is 68 % vs 33 %. Qwen is precise when it fires (its score is below 0.03 on half the frames and its best 1 % operating point gives 1.7 alarms/h) but it misses most events; the fine-tuned Laya trades alarms for recall (18.6 alarms/h at the same point).</li><li><strong>Falling is the class the models see; abandoned objects are not.</strong> Falling: Qwen 0.84, fine-tuned Laya 0.76–0.81; abandoned_object stays at 0.54–0.62 for every run. The act (putting down a bag and walking off) is a few pixels in a 640×360 frame, and the GT labels only the 20 s act: the object left behind counts as normal, so any detector that reacts to the object is penalised.</li><li><strong>The fine-tuned noul is badly calibrated</strong> (ECE 0.35). The refit temperature hit the grid maximum (10), squeezing every score into 0.26–0.67, and the calibration frames (60 negatives per held-out video) are 35 % positive against 7 % on the test stream. Qwen's letter-logit scores are better calibrated (ECE 0.09); the zero-shot 4-frame run's ECE of 0.05 only reflects that it predicts a low score almost always.</li><li><strong>Fine-tuning drifted after step ~600.</strong> Held-out accuracy peaked at 0.62–0.64 (steps 300–600) and ended at 0.57 (step 3,300); the saved model is the last step. Best-checkpoint selection and a shorter schedule are the obvious fixes before the five-class rerun.</li><li><strong>Event type (choice head).</strong> Qwen answers <code>normal</code> on 99.3 % of frames outside the spans, but inside the spans its choice matches the video's class only 18 % of the time (it says normal there too); the fine-tuned Laya matches 49 % (35 % on common frames) and still says normal on 89 % of the normal frames.</li></ul>
+  </section>
+
+  <section class="exp-section"><h2 id="conclusion">Conclusion</h2>
+    <p>On the two classes available so far the decision-model route works as a mechanism: a 201M typed model fine-tuned for half an hour on one MIG slice reaches the frame AUC of a 27B VLM asked the same questions (0.73 vs 0.71), beats it in event recall at a fixed false-positive budget, and decides in 150 ms per frame. Zero-shot it is useless, and 4 s of temporal context has not helped yet. The absolute numbers are modest (AUC 0.73, abandoned_object at chance, calibration broken by the temperature refit), two of five classes are covered, and Qwen was scored on 12 of the 41 test videos, so this is a first pass that says the route is worth continuing, not a result.</p>
+  </section>
+
+  <section class="exp-section"><h2 id="next-steps">Next Steps</h2>
+    <ul><li>Add fight, intrusion and loitering as soon as the archives arrive (Google Drive quota at the moment of writing) and rerun every level; scoring is resumable, the fine-tunes are redone on all five classes.</li><li>Fine-tuning: keep the best held-out checkpoint instead of the last step, calibrate on natural-prevalence frames of the held-out videos, shorter schedule; finish the fine-tuned 4-frame variant (running).</li><li>Level 2 properly: longer and sparser windows (e.g. 8 frames at 0.5 fps) and frame differences, the cases where loitering and abandoned objects need context.</li><li>A second reading of the abandoned_object GT (object left behind = positive) to measure how much of that class's gap is annotation rather than perception.</li><li>Two-stage observe → decide: Qwen3.8-27B description text into the text Laya decision model, the jev-vlm-driver-anomaly recipe.</li></ul>
+  </section>
+
+  <section class="exp-section"><h2 id="reproduction">Reproduction</h2>
+    <dl class="facts"><dt>Code</dt><dd><code>experiments/cctv-decision-model/</code> in the interactive_model project (data_index.py, frames.py, run_laya.py, run_qwen.py, finetune.py, evaluate.py, make_figures.py)</dd>
+      <dt>Environment</dt><dd>conda env <code>cctv_decision</code> (torch 2.6 cu124, transformers 5.17, laya-vision @ 9e1e241 editable); Qwen3.8-27B in the <code>env-qwen</code> venv (torch 2.8 cu128, transformers 5.17)</dd></dl>
+    <pre class="code" data-lang="bash">python experiments/cctv-decision-model/data_index.py
+sbatch submit_jobs/cctv_decision_frames_laya.slurm     # MIG: 1 fps frames + L1/L2 zero-shot
+sbatch submit_jobs/cctv_decision_qwen.slurm            # H200: Qwen3.8-27B reference (6 test videos per class)
+sbatch submit_jobs/cctv_decision_finetune.slurm        # MIG: L3 fine-tunes + scoring
+python experiments/cctv-decision-model/evaluate.py && python experiments/cctv-decision-model/make_figures.py
+python experiments/cctv-decision-model/build_page.py</pre>
+  </section>
+
+  <footer class="page-footer">
+    <span><a href="https://jxb1st.github.io/interactive_model_panel/">← Back to Interactive Model Experiments</a></span>
+    <span><a href="https://jxb1st.github.io/">Home</a></span>
+  </footer>
+</div>
+<script>
+(function () {
+  var toc = document.querySelector("[data-toc]");
+  var heads = document.querySelectorAll(".exp-section > h2[id]");
+  if (!toc || heads.length < 2) { return; }
+  var ol = document.createElement("ol");
+  Array.prototype.forEach.call(heads, function (h) {
+    var li = document.createElement("li"), a = document.createElement("a");
+    a.href = "#" + h.id; a.textContent = h.textContent; li.appendChild(a); ol.appendChild(li);
+  });
+  toc.appendChild(ol);
+})();
+</script>
+</body>
+</html>
