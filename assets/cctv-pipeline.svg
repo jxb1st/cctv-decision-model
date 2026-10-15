@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="710" viewBox="0 0 1320 710" role="img" aria-labelledby="title desc">
+<title id="title">CCTV inference inputs, decisions and training path</title><desc id="desc">Video is sampled at one frame per second. One frame or the last four frames, plus fixed questions, enter Laya-Vision. It returns an anomaly score and a six-way event distribution. Thresholds produce alarms. XML labels are used only in offline training and evaluation. All thumbnails and numerical outputs are illustrative.</desc>
+<defs><marker id="arrow-bg" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#10171f" stroke-width="1.5"/></marker><marker id="arrow-panel" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#19232e" stroke-width="1.5"/></marker><marker id="arrow-line" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#344354" stroke-width="1.5"/></marker><marker id="arrow-ink" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#edf3fa" stroke-width="1.5"/></marker><marker id="arrow-muted" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#a2b2c3" stroke-width="1.5"/></marker><marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#70baff" stroke-width="1.5"/></marker><marker id="arrow-green" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#83dfb0" stroke-width="1.5"/></marker><marker id="arrow-purple" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#c0adff" stroke-width="1.5"/></marker><marker id="arrow-orange" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#ffbf79" stroke-width="1.5"/></marker></defs>
+<rect width="1320" height="710" rx="20" fill="#10171f"/>
+<text x="32" y="36" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" text-anchor="start">01 / CCTV DECISION MODEL</text>
+<text x="32" y="78" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" text-anchor="start">From video to decisions</text>
+<rect x="32" y="142" width="196" height="294" rx="14" fill="#19232e" stroke="#344354" stroke-width="1.5"/>
+<rect x="260" y="142" width="248" height="294" rx="14" fill="#19232e" stroke="#344354" stroke-width="1.5"/>
+<rect x="540" y="142" width="232" height="294" rx="14" fill="#19232e" stroke="#344354" stroke-width="1.5"/>
+<rect x="804" y="142" width="268" height="294" rx="14" fill="#19232e" stroke="#344354" stroke-width="1.5"/>
+<rect x="1104" y="142" width="184" height="294" rx="14" fill="#19232e" stroke="#344354" stroke-width="1.5"/>
+<path d="M232 280 L252 280" fill="none" stroke="#70baff" stroke-width="2" marker-end="url(#arrow-blue)"/>
+<path d="M512 280 L532 280" fill="none" stroke="#70baff" stroke-width="2" marker-end="url(#arrow-blue)"/>
+<path d="M776 280 L796 280" fill="none" stroke="#70baff" stroke-width="2" marker-end="url(#arrow-blue)"/>
+<path d="M1076 280 L1096 280" fill="none" stroke="#70baff" stroke-width="2" marker-end="url(#arrow-blue)"/>
+<circle cx="61" cy="173" r="13" fill="#70baff"/>
+<text x="61" y="178" fill="#10171f" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">1</text>
+<text x="84" y="180" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" text-anchor="start">Video</text>
+<rect x="56" y="216" width="148" height="91" rx="6" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<path d="M64 293 L196 293" fill="none" stroke="#344354" stroke-width="2"/>
+<path d="M64 292 L64 230 L84 230 L84 292" fill="none" stroke="#344354" stroke-width="2"/>
+<circle cx="147.76" cy="254.22" r="4" fill="#70baff"/>
+<path d="M147.76 260.22 l0 14 l-8 12 M147.76 274.22 l9 12 M147.76 263.22 l-9 6 M147.76 263.22 l9 6" fill="none" stroke="#70baff" stroke-width="2"/>
+<text x="56" y="349" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" text-anchor="start">CCTV clip</text>
+<text x="56" y="383" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start">1080p · 30 fps</text>
+<circle cx="289" cy="173" r="13" fill="#70baff"/>
+<text x="289" y="178" fill="#10171f" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">2</text>
+<text x="312" y="180" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" text-anchor="start">Sample frames</text>
+<rect x="280" y="232" width="152" height="84" rx="6" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<path d="M288 302 L424 302" fill="none" stroke="#344354" stroke-width="2"/>
+<path d="M288 301 L288 246 L308 246 L308 301" fill="none" stroke="#344354" stroke-width="2"/>
+<circle cx="374.24" cy="267.28" r="4" fill="#70baff"/>
+<path d="M374.24 273.28 l0 14 l-8 12 M374.24 287.28 l9 12 M374.24 276.28 l-9 6 M374.24 276.28 l9 6" fill="none" stroke="#70baff" stroke-width="2"/>
+<rect x="296" y="223" width="152" height="84" rx="6" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<path d="M304 293 L440 293" fill="none" stroke="#344354" stroke-width="2"/>
+<path d="M304 292 L304 237 L324 237 L324 292" fill="none" stroke="#344354" stroke-width="2"/>
+<circle cx="390.24" cy="258.28" r="4" fill="#70baff"/>
+<path d="M390.24 264.28 l3 14 l-8 12 M393.24 278.28 l9 12 M390.24 267.28 l-9 6 M390.24 267.28 l9 6" fill="none" stroke="#70baff" stroke-width="2"/>
+<rect x="312" y="214" width="152" height="84" rx="6" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<path d="M320 284 L456 284" fill="none" stroke="#344354" stroke-width="2"/>
+<path d="M320 283 L320 228 L340 228 L340 283" fill="none" stroke="#344354" stroke-width="2"/>
+<circle cx="406.24" cy="249.28" r="4" fill="#70baff"/>
+<path d="M406.24 255.28 l6 14 l-8 12 M412.24 269.28 l9 12 M406.24 258.28 l-9 6 M406.24 258.28 l9 6" fill="none" stroke="#70baff" stroke-width="2"/>
+<rect x="328" y="205" width="152" height="84" rx="6" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<path d="M336 275 L472 275" fill="none" stroke="#344354" stroke-width="2"/>
+<path d="M336 274 L336 219 L356 219 L356 274" fill="none" stroke="#344354" stroke-width="2"/>
+<circle cx="434.24" cy="258.28" r="4" fill="#70baff"/>
+<path d="M428.24 258.28 h-15 l-11 3 M413.24 258.28 l-8 -5" fill="none" stroke="#70baff" stroke-width="2"/>
+<text x="280" y="350" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" text-anchor="start">1 frame / last 4</text>
+<text x="280" y="383" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start">1 fps · 640 × 360</text>
+<circle cx="569" cy="173" r="13" fill="#83dfb0"/>
+<text x="569" y="178" fill="#10171f" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">3</text>
+<text x="592" y="180" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" text-anchor="start">Laya-Vision</text>
+<rect x="597" y="214" width="118" height="88" rx="12" fill="#213a34" stroke="#83dfb0" stroke-width="1.5"/>
+<path d="M588 230 L597 230" fill="none" stroke="#83dfb0" stroke-width="2"/>
+<path d="M715 230 L724 230" fill="none" stroke="#83dfb0" stroke-width="2"/>
+<path d="M588 248 L597 248" fill="none" stroke="#83dfb0" stroke-width="2"/>
+<path d="M715 248 L724 248" fill="none" stroke="#83dfb0" stroke-width="2"/>
+<path d="M588 266 L597 266" fill="none" stroke="#83dfb0" stroke-width="2"/>
+<path d="M715 266 L724 266" fill="none" stroke="#83dfb0" stroke-width="2"/>
+<path d="M588 284 L597 284" fill="none" stroke="#83dfb0" stroke-width="2"/>
+<path d="M715 284 L724 284" fill="none" stroke="#83dfb0" stroke-width="2"/>
+<text x="656" y="269" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="33" font-weight="700" text-anchor="middle">201M</text>
+<text x="562" y="350" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" text-anchor="start">Direct decision</text>
+<text x="562" y="383" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start">No text generation</text>
+<circle cx="833" cy="173" r="13" fill="#83dfb0"/>
+<text x="833" y="178" fill="#10171f" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">4</text>
+<text x="856" y="180" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" text-anchor="start">Typed outputs</text>
+<text x="824" y="217" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start">anomaly</text>
+<text x="1052" y="217" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" text-anchor="end">0.82</text>
+<rect x="824" y="233" width="228" height="7" rx="3" fill="#344354" stroke="#344354" stroke-width="1.5"/>
+<rect x="824" y="233" width="186.95999999999998" height="7" rx="3" fill="#83dfb0" stroke="#83dfb0" stroke-width="1.5"/>
+<text x="824" y="271" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="start">normal</text>
+<rect x="922" y="261" width="14.7" height="8" rx="2" fill="#70baff" stroke="none" stroke-width="1.5"/>
+<text x="1052" y="271" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" text-anchor="end">0.15</text>
+<text x="824" y="292" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="start">fight</text>
+<rect x="922" y="282" width="3" height="8" rx="2" fill="#70baff" stroke="none" stroke-width="1.5"/>
+<text x="1052" y="292" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" text-anchor="end">0.02</text>
+<text x="824" y="313" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="start">falling</text>
+<rect x="922" y="303" width="73.5" height="8" rx="2" fill="#83dfb0" stroke="none" stroke-width="1.5"/>
+<text x="1052" y="313" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" text-anchor="end">0.75</text>
+<text x="824" y="334" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="start">abandoned</text>
+<rect x="922" y="324" width="3" height="8" rx="2" fill="#70baff" stroke="none" stroke-width="1.5"/>
+<text x="1052" y="334" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" text-anchor="end">0.03</text>
+<text x="824" y="355" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="start">loitering</text>
+<rect x="922" y="345" width="3" height="8" rx="2" fill="#70baff" stroke="none" stroke-width="1.5"/>
+<text x="1052" y="355" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" text-anchor="end">0.03</text>
+<text x="824" y="376" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="start">intrusion</text>
+<rect x="922" y="366" width="3" height="8" rx="2" fill="#70baff" stroke="none" stroke-width="1.5"/>
+<text x="1052" y="376" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="400" text-anchor="end">0.02</text>
+<text x="824" y="420" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="start">Illustrative values</text>
+<circle cx="1133" cy="173" r="13" fill="#ffbf79"/>
+<text x="1133" y="178" fill="#10171f" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">5</text>
+<text x="1156" y="180" fill="#ffbf79" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" text-anchor="start">Policy</text>
+<text x="1196" y="255" fill="#ffbf79" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700" text-anchor="middle">≥ τ</text>
+<text x="1196" y="305" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="middle">Threshold</text>
+<text x="1196" y="350" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="middle">Alert / no alert</text>
+<text x="1196" y="383" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle">Latest frame</text>
+<rect x="260" y="470" width="512" height="80" rx="14" fill="#252239" stroke="#c0adff" stroke-width="1.5"/>
+<text x="280" y="500" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="start">FIXED QUESTIONS + CONTEXT</text>
+<text x="280" y="529" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start">Abnormal now?  ·  Which event?  ·  Judge latest frame</text>
+<path d="M656 469 L656 442" fill="none" stroke="#c0adff" stroke-width="2" marker-end="url(#arrow-purple)"/>
+<text x="32" y="554" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="start">OFFLINE TRAINING</text>
+<rect x="32" y="570" width="1256" height="94" rx="14" fill="#201f32" stroke="#c0adff" stroke-width="1.5" stroke-dasharray="6 5"/>
+<text x="52" y="604" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" text-anchor="start">Train frames + XML</text>
+<text x="52" y="638" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start">Temporal event labels</text>
+<text x="360" y="604" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" text-anchor="start">RLCD fine-tuning</text>
+<text x="360" y="638" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start">Head + last 4 LM layers</text>
+<text x="690" y="604" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" text-anchor="start">Temperature fit</text>
+<text x="690" y="638" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start">Held-out train videos</text>
+<text x="1008" y="604" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" text-anchor="start">Model artifacts</text>
+<text x="1008" y="638" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start">Weights + temperatures</text>
+<path d="M307 615 L341 615" fill="none" stroke="#c0adff" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow-purple)"/>
+<path d="M636 615 L670 615" fill="none" stroke="#c0adff" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow-purple)"/>
+<path d="M958 615 L992 615" fill="none" stroke="#c0adff" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow-purple)"/>
+<text x="32" y="694" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start">Training labels are offline only. Test XML is used for metrics. Output values and frame thumbnails are illustrative.</text>
+</svg>

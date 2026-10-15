@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="540" height="1460" viewBox="0 0 540 1460" role="img" aria-labelledby="title desc">
+<title id="title">Why Laya-Vision is small and how its decision output differs</title><desc id="desc">The 201M checkpoint starts with a compact SmolVLM backbone and retains 20 of its 30 language layers. It produces option scores directly rather than generating explanatory text. Compact networks and layer removal reduce parameter count; direct scoring avoids autoregressive answer generation. RLCD is a training objective, not a new language-model architecture. Qwen in this experiment also uses direct first-token scoring.</desc>
+<defs><marker id="arrow-bg" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#10171f" stroke-width="1.5"/></marker><marker id="arrow-panel" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#19232e" stroke-width="1.5"/></marker><marker id="arrow-line" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#344354" stroke-width="1.5"/></marker><marker id="arrow-ink" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#edf3fa" stroke-width="1.5"/></marker><marker id="arrow-muted" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#a2b2c3" stroke-width="1.5"/></marker><marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#70baff" stroke-width="1.5"/></marker><marker id="arrow-green" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#83dfb0" stroke-width="1.5"/></marker><marker id="arrow-purple" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#c0adff" stroke-width="1.5"/></marker><marker id="arrow-orange" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#ffbf79" stroke-width="1.5"/></marker></defs>
+<rect width="540" height="1460" rx="20" fill="#10171f"/>
+<text x="32" y="36" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" text-anchor="start">03 / CCTV DECISION MODEL</text>
+<text x="32" y="78" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" text-anchor="start">Why only 201M parameters?</text>
+<rect x="28" y="118" width="484" height="330" rx="14" fill="#19232e" stroke="#70baff" stroke-width="1.5"/>
+<circle cx="61" cy="147" r="13" fill="#70baff"/>
+<text x="61" y="152" fill="#10171f" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">1</text>
+<text x="84" y="154" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" text-anchor="start">Start compact</text>
+<text x="48" y="207" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" text-anchor="start">SmolVLM family</text>
+<text x="48" y="244" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="start">Small vision + language backbone</text>
+<text x="48" y="294" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start">Qwen reference</text>
+<text x="492" y="294" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" text-anchor="end">27B</text>
+<rect x="48" y="310" width="444" height="20" rx="3" fill="#344354" stroke="#344354" stroke-width="1.5"/>
+<text x="48" y="369" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start">Laya-Vision</text>
+<text x="492" y="369" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" text-anchor="end">0.201B</text>
+<rect x="48" y="385" width="3.3053333333333335" height="20" rx="1" fill="#70baff" stroke="#70baff" stroke-width="1.5"/>
+<text x="48" y="435" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start">Parameter counts · linear scale</text>
+<rect x="28" y="472" width="484" height="352" rx="14" fill="#19232e" stroke="#83dfb0" stroke-width="1.5"/>
+<circle cx="61" cy="501" r="13" fill="#83dfb0"/>
+<text x="61" y="506" fill="#10171f" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">2</text>
+<text x="84" y="508" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" text-anchor="start">Retain fewer layers</text>
+<text x="48" y="563" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700" text-anchor="start">30 → 20</text>
+<text x="48" y="598" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start">Language-model layers</text>
+<rect x="48.0" y="627" width="40.8" height="26" rx="4" fill="#254039" stroke="#83dfb0" stroke-width="1.5"/>
+<rect x="92.8" y="627" width="40.8" height="26" rx="4" fill="#254039" stroke="#83dfb0" stroke-width="1.5"/>
+<rect x="137.6" y="627" width="40.8" height="26" rx="4" fill="#254039" stroke="#83dfb0" stroke-width="1.5"/>
+<rect x="182.39999999999998" y="627" width="40.8" height="26" rx="4" fill="#254039" stroke="#83dfb0" stroke-width="1.5"/>
+<rect x="227.2" y="627" width="40.8" height="26" rx="4" fill="#254039" stroke="#83dfb0" stroke-width="1.5"/>
+<rect x="272.0" y="627" width="40.8" height="26" rx="4" fill="#254039" stroke="#83dfb0" stroke-width="1.5"/>
+<rect x="316.79999999999995" y="627" width="40.8" height="26" rx="4" fill="#254039" stroke="#83dfb0" stroke-width="1.5"/>
+<rect x="361.59999999999997" y="627" width="40.8" height="26" rx="4" fill="#254039" stroke="#83dfb0" stroke-width="1.5"/>
+<rect x="406.4" y="627" width="40.8" height="26" rx="4" fill="#254039" stroke="#83dfb0" stroke-width="1.5"/>
+<rect x="451.2" y="627" width="40.8" height="26" rx="4" fill="#254039" stroke="#83dfb0" stroke-width="1.5"/>
+<rect x="48.0" y="664" width="40.8" height="26" rx="4" fill="#254039" stroke="#83dfb0" stroke-width="1.5"/>
+<rect x="92.8" y="664" width="40.8" height="26" rx="4" fill="#254039" stroke="#83dfb0" stroke-width="1.5"/>
+<rect x="137.6" y="664" width="40.8" height="26" rx="4" fill="#254039" stroke="#83dfb0" stroke-width="1.5"/>
+<rect x="182.39999999999998" y="664" width="40.8" height="26" rx="4" fill="#254039" stroke="#83dfb0" stroke-width="1.5"/>
+<rect x="227.2" y="664" width="40.8" height="26" rx="4" fill="#254039" stroke="#83dfb0" stroke-width="1.5"/>
+<rect x="272.0" y="664" width="40.8" height="26" rx="4" fill="#254039" stroke="#83dfb0" stroke-width="1.5"/>
+<rect x="316.79999999999995" y="664" width="40.8" height="26" rx="4" fill="#254039" stroke="#83dfb0" stroke-width="1.5"/>
+<rect x="361.59999999999997" y="664" width="40.8" height="26" rx="4" fill="#254039" stroke="#83dfb0" stroke-width="1.5"/>
+<rect x="406.4" y="664" width="40.8" height="26" rx="4" fill="#254039" stroke="#83dfb0" stroke-width="1.5"/>
+<rect x="451.2" y="664" width="40.8" height="26" rx="4" fill="#254039" stroke="#83dfb0" stroke-width="1.5"/>
+<rect x="48.0" y="701" width="40.8" height="26" rx="4" fill="#10171f" stroke="#344354" stroke-width="1.5" stroke-dasharray="6 5"/>
+<path d="M54.0 721 L82.8 707" fill="none" stroke="#a2b2c3" stroke-width="1"/>
+<rect x="92.8" y="701" width="40.8" height="26" rx="4" fill="#10171f" stroke="#344354" stroke-width="1.5" stroke-dasharray="6 5"/>
+<path d="M98.8 721 L127.6 707" fill="none" stroke="#a2b2c3" stroke-width="1"/>
+<rect x="137.6" y="701" width="40.8" height="26" rx="4" fill="#10171f" stroke="#344354" stroke-width="1.5" stroke-dasharray="6 5"/>
+<path d="M143.6 721 L172.39999999999998 707" fill="none" stroke="#a2b2c3" stroke-width="1"/>
+<rect x="182.39999999999998" y="701" width="40.8" height="26" rx="4" fill="#10171f" stroke="#344354" stroke-width="1.5" stroke-dasharray="6 5"/>
+<path d="M188.39999999999998 721 L217.2 707" fill="none" stroke="#a2b2c3" stroke-width="1"/>
+<rect x="227.2" y="701" width="40.8" height="26" rx="4" fill="#10171f" stroke="#344354" stroke-width="1.5" stroke-dasharray="6 5"/>
+<path d="M233.2 721 L262.0 707" fill="none" stroke="#a2b2c3" stroke-width="1"/>
+<rect x="272.0" y="701" width="40.8" height="26" rx="4" fill="#10171f" stroke="#344354" stroke-width="1.5" stroke-dasharray="6 5"/>
+<path d="M278.0 721 L306.8 707" fill="none" stroke="#a2b2c3" stroke-width="1"/>
+<rect x="316.79999999999995" y="701" width="40.8" height="26" rx="4" fill="#10171f" stroke="#344354" stroke-width="1.5" stroke-dasharray="6 5"/>
+<path d="M322.79999999999995 721 L351.59999999999997 707" fill="none" stroke="#a2b2c3" stroke-width="1"/>
+<rect x="361.59999999999997" y="701" width="40.8" height="26" rx="4" fill="#10171f" stroke="#344354" stroke-width="1.5" stroke-dasharray="6 5"/>
+<path d="M367.59999999999997 721 L396.4 707" fill="none" stroke="#a2b2c3" stroke-width="1"/>
+<rect x="406.4" y="701" width="40.8" height="26" rx="4" fill="#10171f" stroke="#344354" stroke-width="1.5" stroke-dasharray="6 5"/>
+<path d="M412.4 721 L441.2 707" fill="none" stroke="#a2b2c3" stroke-width="1"/>
+<rect x="451.2" y="701" width="40.8" height="26" rx="4" fill="#10171f" stroke="#344354" stroke-width="1.5" stroke-dasharray="6 5"/>
+<path d="M457.2 721 L486.0 707" fill="none" stroke="#a2b2c3" stroke-width="1"/>
+<text x="48" y="762" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" text-anchor="start">20 retained</text>
+<text x="492" y="762" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="end">10 removed</text>
+<text x="48" y="795" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="start">Then continued training</text>
+<rect x="28" y="848" width="484" height="360" rx="14" fill="#19232e" stroke="#c0adff" stroke-width="1.5"/>
+<circle cx="61" cy="877" r="13" fill="#c0adff"/>
+<text x="61" y="882" fill="#10171f" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">3</text>
+<text x="84" y="884" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" text-anchor="start">Read scores directly</text>
+<text x="48" y="935" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="27" font-weight="700" text-anchor="start">Decision readout</text>
+<rect x="90" y="1023" width="40" height="35" rx="4" fill="#c0adff" stroke="#c0adff" stroke-width="1.5"/>
+<text x="110" y="1085" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle">A</text>
+<rect x="162" y="982" width="40" height="76" rx="4" fill="#c0adff" stroke="#c0adff" stroke-width="1.5"/>
+<text x="182" y="1085" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle">B</text>
+<rect x="234" y="1034" width="40" height="24" rx="4" fill="#c0adff" stroke="#c0adff" stroke-width="1.5"/>
+<text x="254" y="1085" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="middle">C</text>
+<path d="M48 1061 L492 1061" fill="none" stroke="#344354" stroke-width="1"/>
+<text x="48" y="1127" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="start">One score per candidate option</text>
+<text x="48" y="1161" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="start">No generated answer sequence</text>
+<rect x="28" y="1232" width="484" height="104" rx="14" fill="#201f32" stroke="#c0adff" stroke-width="1.5"/>
+<text x="48" y="1267" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" text-anchor="start">RLCD = training objective</text>
+<text x="48" y="1305" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="start">Parameter count and inference cost differ</text>
+<text x="32" y="1370" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="400" text-anchor="start">Text Laya: ModernBERT + head · 421M</text>
+<text x="32" y="1405" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start">Qwen here also uses direct token scoring.</text>
+<text x="32" y="1436" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start">The parameter ratio is not a speedup claim.</text>
+</svg>

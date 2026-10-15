@@ -290,3 +290,39 @@ details.expand > .expand-body > :last-child { margin-bottom: 0; }
 @media (prefers-reduced-motion: reduce) {
   .card, .card-cta::after { transition: none; }
 }
+
+/* Architecture figures: standalone SVGs with a vertical mobile composition. */
+.experiment-levels { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+.level-card { display: flex; flex-direction: column; gap: 9px; padding: 18px; background: var(--panel-2); border: 1px solid var(--border); border-radius: 10px; }
+.level-id { color: #83dfb0; font-size: 11px; font-weight: 700; letter-spacing: .1em; }
+.level-card strong { font-size: 18px; line-height: 1.3; }
+.level-card > span:last-child { font-size: 12px; color: #a2b2c3; }
+.reference-level .level-id { color: var(--purple); }
+.exp-section .visual-note { max-width: none; font-size: 12px; color: #a2b2c3; }
+.visual-section { scroll-margin-top: 24px; }
+.architecture-figure img { border-radius: 14px; background: #10171f; }
+.architecture-figure figcaption { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; color: #a2b2c3; font-size: 12px; }
+.figure-actions { display: inline-flex; gap: 10px; align-items: center; flex-shrink: 0; }
+.figure-actions a, .figure-actions button { font: inherit; color: #70baff; border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; background: var(--panel-2); cursor: pointer; text-decoration: none; }
+.figure-actions a:hover, .figure-actions button:hover { border-color: #70baff; }
+.figure-actions a:focus-visible, .figure-actions button:focus-visible, .diagram-dialog button:focus-visible { outline: 2px solid #70baff; outline-offset: 3px; }
+.diagram-sources { display: flex; gap: 8px 16px; flex-wrap: wrap; font-size: 11px; color: #a2b2c3; }
+.diagram-sources a { color: #a2b2c3; text-decoration: underline; text-underline-offset: 3px; }
+.diagram-dialog { width: min(1600px, 96vw); max-width: 96vw; max-height: 94vh; padding: 0; border: 1px solid #344354; border-radius: 14px; color: var(--text); background: #10171f; }
+.diagram-dialog::backdrop { background: rgba(3, 8, 14, .86); }
+.diagram-dialog-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 12px 18px; border-bottom: 1px solid #344354; }
+.diagram-dialog-header h2 { font-size: 17px; margin: 0; }
+.diagram-dialog-header form { margin: 0; }
+.diagram-dialog button { padding: 8px 12px; border: 1px solid #344354; border-radius: 6px; background: #19232e; color: var(--text); cursor: pointer; }
+.diagram-dialog-body { overflow: auto; max-height: calc(94vh - 72px); }
+.diagram-dialog-body img { width: 100%; display: block; }
+@media (max-width: 760px) {
+  .experiment-levels { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .architecture-figure img { width: 100%; height: auto; }
+  .level-card { padding: 14px; }
+  .level-card strong { font-size: 16px; }
+  .diagram-dialog-header h2 { font-size: 14px; }
+  .diagram-dialog-header { gap: 8px; padding: 10px; }
+}

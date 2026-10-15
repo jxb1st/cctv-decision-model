@@ -21,18 +21,42 @@
         </div>
       </div>
     </div>
-    <p class="exp-summary">First pass at the mentor&#x27;s decision-model proposal on the ETRI CCTV dataset: calibrated typed anomaly decisions (noul + choice) from frames with Laya-Vision (201M), zero-shot on single frames (Level 1) and 4-frame windows (Level 2), fine-tuned on the ETRI temporal ground truth (Level 3), against Qwen3.8-27B answering the same typed questions per frame. Two of five classes so far (abandoned_object, falling; 125 videos). Zero-shot Laya-Vision is at chance (frame AUC 0.51–0.59); 30 minutes of fine-tuning on one MIG slice brings the 1-frame model to AUC 0.73 on 41 test videos, level with Qwen3.8-27B (0.71 on its 12 videos) and ahead of it in event recall at a 1 % false-positive budget (39 % vs 25 %), at 150 ms per decision.</p>
+    <p class="exp-summary">Can a 201M visual decision model recognize CCTV events at lower compute cost? Single-frame, four-frame and fine-tuned Laya-Vision experiments, with a Qwen3.8-27B reference. Initial evidence: 125 videos, two event classes; calibration and temporal understanding remain open problems.</p>
   </header>
 
   <nav class="exp-toc" data-toc aria-label="Sections"></nav>
 
   <section class="exp-section"><h2 id="overview">Overview</h2>
-    <p>The proposal replaces "a large video VLM describes the scene" with a small <em>decision model</em>: the model is given
-    a state (one or several frames) and typed questions, and returns calibrated probabilities in one forward pass, without
-    generating text. This experiment runs the first three levels of that proposal on the ETRI CCTV dataset and compares them
-    with a large VLM asked the same typed questions.</p>
-    <ul><li>Level 1: <strong>Laya-Vision</strong> (SmolVLM-256M backbone + decision head, 201M parameters) on single frames, zero-shot.</li><li>Level 2: the same model on a window of the last 4 frames (4 s of context), zero-shot.</li><li>Level 3: Laya-Vision fine-tuned on the ETRI train split with the repository's RLCD objective, single-frame and 4-frame variants.</li><li>Reference: <strong>Qwen3.8-27B</strong> answering the same questions as lettered choices; the distribution is the softmax over the letter logits (the vidjev protocol).</li></ul>
-    <p class="table-note">No footage is shown on this page: the ETRI videos are not public. Score curves, metrics and prompts only.</p>
+    <div class="experiment-levels" aria-label="Experiment variants">
+      <div class="level-card"><span class="level-id">LEVEL 1</span><strong>1 frame</strong><span>Laya-Vision · zero-shot</span></div>
+      <div class="level-card"><span class="level-id">LEVEL 2</span><strong>Last 4 frames</strong><span>Laya-Vision · zero-shot</span></div>
+      <div class="level-card"><span class="level-id">LEVEL 3</span><strong>Domain fine-tuning</strong><span>ETRI labels · RLCD</span></div>
+      <div class="level-card reference-level"><span class="level-id">REFERENCE</span><strong>Qwen3.8-27B</strong><span>Same questions · letter logits</span></div>
+    </div>
+    <p class="visual-note">The diagrams below use schematic frames and illustrative scores. No private ETRI footage is shown.</p>
+  </section>
+
+  <section class="exp-section visual-section"><h2 id="method">Method / Pipeline</h2>
+    <figure class="fig architecture-figure">
+      <picture><source media="(max-width: 640px)" srcset="assets/cctv-pipeline-mobile.svg"><img src="assets/cctv-pipeline.svg" width="1320" height="710" alt="CCTV video is sampled at 1 fps. One or four frames plus fixed questions enter Laya-Vision, which returns anomaly and event scores. Thresholds produce alerts. XML labels are used only in offline training and evaluation."></picture>
+      <figcaption><span>Frame input → typed decisions. The prediction belongs to the latest frame.</span><span class="figure-actions"><button type="button" data-diagram="assets/cctv-pipeline.svg" data-mobile-diagram="assets/cctv-pipeline-mobile.svg" data-diagram-title="CCTV inference pipeline">Expand figure</button><a href="assets/cctv-pipeline.svg" download>SVG ↓</a></span></figcaption>
+    </figure>
+  </section>
+
+  <section class="exp-section visual-section"><h2 id="model-architecture">Model Architecture</h2>
+    <figure class="fig architecture-figure">
+      <picture><source media="(max-width: 640px)" srcset="assets/laya-vision-architecture-mobile.svg"><img src="assets/laya-vision-architecture.svg" width="1320" height="730" loading="lazy" alt="Laya-Vision 201M: SigLIP vision encoder and connector produce image tokens. Image and text tokens enter a 20-layer SmolLM2 backbone. Two bidirectional decision-head layers and an option scorer produce logits, followed by temperature scaling and softmax. CCTV fine-tuning updates the head and final four language layers."></picture>
+      <figcaption><span>Selected checkpoint: <code>thaitea/laya-vision @ f2fe3c1</code>.</span><span class="figure-actions"><button type="button" data-diagram="assets/laya-vision-architecture.svg" data-mobile-diagram="assets/laya-vision-architecture-mobile.svg" data-diagram-title="Laya-Vision model architecture">Expand figure</button><a href="assets/laya-vision-architecture.svg" download>SVG ↓</a></span></figcaption>
+    </figure>
+    <div class="diagram-sources" aria-label="Architecture sources"><span>Sources</span><a href="https://huggingface.co/thaitea/laya-vision/blob/f2fe3c12cb6d04c59d8a190250bf3fb40fc828dc/backbone/config.json" target="_blank" rel="noopener noreferrer">Pinned backbone config ↗</a><a href="https://huggingface.co/thaitea/laya-vision/blob/f2fe3c12cb6d04c59d8a190250bf3fb40fc828dc/vlm_agent_config.json" target="_blank" rel="noopener noreferrer">Pinned decision config ↗</a><a href="https://r33drichards.github.io/laya-vision/concepts/architecture/" target="_blank" rel="noopener noreferrer">Architecture reference ↗</a></div>
+  </section>
+
+  <section class="exp-section visual-section"><h2 id="why-small">Why the Model Is Small</h2>
+    <figure class="fig architecture-figure">
+      <picture><source media="(max-width: 640px)" srcset="assets/why-laya-is-compact-mobile.svg"><img src="assets/why-laya-is-compact.svg" width="1320" height="675" loading="lazy" alt="Three design choices: use a compact SmolVLM backbone, retain 20 of 30 language layers, and read option scores directly. Small networks and layer removal reduce parameters; direct scoring avoids generated answer decoding. RLCD is a training objective. Qwen in this experiment also uses direct token scoring."></picture>
+      <figcaption><span>Compact Transformer + decision readout + task training.</span><span class="figure-actions"><button type="button" data-diagram="assets/why-laya-is-compact.svg" data-mobile-diagram="assets/why-laya-is-compact-mobile.svg" data-diagram-title="Why Laya-Vision is compact">Expand figure</button><a href="assets/why-laya-is-compact.svg" download>SVG ↓</a></span></figcaption>
+    </figure>
+    <div class="diagram-sources" aria-label="Model size sources"><span>Sources</span><a href="https://r33drichards.github.io/laya-vision/reference/checkpoints/" target="_blank" rel="noopener noreferrer">201M checkpoint and layer pruning ↗</a><a href="https://github.com/NandhaKishorM/laya" target="_blank" rel="noopener noreferrer">Original text Laya ↗</a></div>
   </section>
 
   <section class="exp-section"><h2 id="research-question">Research Question</h2>
@@ -57,14 +81,6 @@
       <dt>Hardware</dt><dd>Laya-Vision: one H200 MIG slice (1g.18gb), torch 2.6 cu124, transformers 5.17. Qwen3.8-27B: one full H200,
         transformers 5.17 (reference PyTorch kernels for the gated delta-net layers).</dd>
     </dl>
-  </section>
-
-  <section class="exp-section"><h2 id="method">Method / Pipeline</h2>
-    <ol class="pipeline"><li>Index videos + XML; split by video number</li><li>Sample 1 fps frames (640×360)</li>
-      <li>Per frame (or last-4-frame window): typed questions → P(anomaly), P(event type)</li><li>Fine-tune Laya-Vision on train frames (balanced pos/neg, RLCD loss), refit temperatures on held-out train videos</li>
-      <li>Score test frames; frame AUC, event metrics, calibration</li></ol>
-    <p>Window decisions are attributed to the latest frame. Fine-tuning trains the decision head and the last 4 language-model layers;
-    each training frame contributes one noul example (anomaly label) and one choice example (class inside the span, <code>normal</code> outside).</p>
   </section>
 
   <section class="exp-section"><h2 id="prompts">Prompts</h2>
@@ -244,6 +260,10 @@ python experiments/cctv-decision-model/build_page.py</pre>
     <span><a href="https://jxb1st.github.io/">Home</a></span>
   </footer>
 </div>
+<dialog class="diagram-dialog" aria-labelledby="diagram-dialog-title">
+  <div class="diagram-dialog-header"><h2 id="diagram-dialog-title">Diagram</h2><form method="dialog"><button type="submit" aria-label="Close diagram">Close ×</button></form></div>
+  <div class="diagram-dialog-body"><img alt=""></div>
+</dialog>
 <script>
 (function () {
   var toc = document.querySelector("[data-toc]");
@@ -255,6 +275,23 @@ python experiments/cctv-decision-model/build_page.py</pre>
     a.href = "#" + h.id; a.textContent = h.textContent; li.appendChild(a); ol.appendChild(li);
   });
   toc.appendChild(ol);
+})();
+(function () {
+  var dialog = document.querySelector('.diagram-dialog');
+  if (!dialog || typeof dialog.showModal !== 'function') { return; }
+  var title = dialog.querySelector('h2'), image = dialog.querySelector('img');
+  document.querySelectorAll('[data-diagram]').forEach(function (button) {
+    button.addEventListener('click', function () {
+      var mobile = window.matchMedia('(max-width: 640px)').matches;
+      image.src = mobile ? button.dataset.mobileDiagram : button.dataset.diagram;
+      image.alt = button.closest('figure').querySelector('img').alt;
+      title.textContent = button.dataset.diagramTitle;
+      dialog.showModal();
+    });
+  });
+  dialog.addEventListener('click', function (event) {
+    if (event.target === dialog) { dialog.close(); }
+  });
 })();
 </script>
 </body>
