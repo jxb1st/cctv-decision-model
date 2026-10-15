@@ -60,6 +60,119 @@ class SVG:
         OUT.joinpath(name).write_text('\n'.join(self.parts)+"\n</svg>\n")
 
 
+def model_family(mobile=False):
+    s = SVG(540 if mobile else 1320, 1740 if mobile else 900,
+            "Jev, Laya and Laya-Vision: what each model does",
+            "Jev is TypeSafe's hosted decision service. Laya is an independent open-source text decision model with a compatible API, not an official release of Jev's weights. Laya-Vision is an independent code fork of Laya that adds image input using a small vision-language backbone. This CCTV experiment uses Laya-Vision directly, without a Jev API call. Shared outputs include choices, scores and yes/no probabilities.")
+    s.header("00", "Meet the decision models", mobile)
+
+    # A shared task, followed by a relationship map. Dashed links mean API
+    # compatibility; only the solid arrow denotes an actual code extension.
+    if mobile:
+        s.rect(28,110,484,108,fill="#1c2632",r=12)
+        s.text(48,143,"WHAT A DECISION MODEL DOES",13,"blue",700)
+        s.text(48,179,"Content + question",20,weight=700)
+        s.line(235,172,267,172,"blue",arrow=True)
+        s.text(286,166,"Choice / score",19,"green",700)
+        s.text(286,193,"Yes/no probability",17,"muted")
+        panels = [(28,250,484,280),(28,650,484,280),(28,1050,484,280)]
+    else:
+        s.rect(32,112,1256,104,fill="#1c2632",r=12)
+        s.rect(56,135,42,55,fill="#203040",stroke="blue",r=6)
+        for i,w in enumerate([24,24,15]): s.line(65,150+i*12,65+w,150+i*12,"blue",width=2)
+        s.text(118,162,"Content + question",24,weight=700)
+        s.text(118,190,"You define the judgment",17,"muted")
+        s.line(392,164,458,164,"blue",arrow=True)
+        s.text(498,162,"Decision model",24,"green",700)
+        s.text(498,190,"Direct numerical answers",17,"muted")
+        s.line(760,164,826,164,"green",arrow=True)
+        for x,label,value in [(868,"CHOOSE","A / B / C"),(1008,"RATE","0 … 3"),(1148,"YES / NO","0 … 1")]:
+            s.text(x,147,label,12,"muted",700)
+            s.text(x,184,value,24,"green",700)
+        panels = [(32,266,340,324),(490,266,340,324),(948,266,340,324)]
+
+    for i,(x,y,w,h) in enumerate(panels):
+        color = ["blue","purple","green"][i]
+        s.rect(x,y,w,h,fill="#1d2a30" if i==2 else "panel",stroke=color)
+        s.text(x+24,y+48,["Jev","Laya","Laya-Vision"][i],34,color,700)
+        s.text(x+24,y+78,["TypeSafe AI","Convai Innovations","Independent Laya fork"][i],17,"muted")
+        ix,iy = x+24,y+106
+        if i==0:
+            # Cloud with three service endpoints.
+            s.path(f'M{ix+18} {iy+52} C{ix-4} {iy+52} {ix-4} {iy+23} {ix+18} {iy+22} C{ix+23} {iy-5} {ix+60} {iy-4} {ix+66} {iy+22} C{ix+91} {iy+19} {ix+94} {iy+52} {ix+69} {iy+52} Z',color)
+            for dx in [20,43,66]:
+                s.line(ix+dx,iy+53,ix+dx,iy+71,color)
+                s.circle(ix+dx,iy+76,4,color)
+        elif i==1:
+            # A locally runnable model, depicted as a server and code brackets.
+            for dy in [0,27,54]:
+                s.rect(ix,iy+dy,86,21,fill="#252239",stroke=color,r=5)
+                s.circle(ix+12,iy+dy+10,3,color)
+                s.line(ix+28,iy+dy+10,ix+73,iy+dy+10,color,width=1)
+        else:
+            s.frame(ix+12,iy,84,62,3,color)
+            s.frame(ix,iy+16,84,62,0,color)
+        tx,ty = (x+156,y+144) if mobile else (x+24,y+204)
+        s.text(tx,ty,["Hosted service","Open-source text model","Visual decision model"][i],23 if mobile else 24,weight=700)
+        s.text(tx,ty+31,["Call a remote API","Run + fine-tune locally","Images + text questions"][i],18,"muted")
+        if i==0:
+            s.rect(tx,ty+59,164,32,fill="#203040",stroke="blue",r=6)
+            s.text(tx+82,ty+81,"COMMERCIAL",14,"blue",700,"middle")
+        elif i==1:
+            s.text(tx,ty+84,"421M / 322M",24,"purple",700)
+            s.text(tx+172,ty+84,"parameters",16,"muted")
+        else:
+            s.text(tx,ty+84,"201M",28,"green",700)
+            s.rect(tx+137,ty+59,146,32,fill="#254039",stroke="green",r=6)
+            s.text(tx+210,ty+81,"USED HERE",14,"green",700,"middle")
+
+    if mobile:
+        s.line(270,534,270,644,"blue",dash=True)
+        s.rect(94,560,352,56,fill="bg",stroke="none",r=0)
+        s.text(270,582,"Compatible API",21,"blue",700,"middle")
+        s.text(270,608,"Independent models",18,"muted",anchor="middle")
+        s.line(270,934,270,1040,"purple",arrow=True)
+        s.rect(110,954,320,58,fill="bg",stroke="none",r=0)
+        s.text(270,977,"Code fork + image input",21,"purple",700,"middle")
+        s.text(270,1004,"Uses a small VLM backbone",18,"muted",anchor="middle")
+        s.text(32,1374,"Laya is an independent alternative to Jev.",19,"muted")
+        s.rect(28,1410,484,292,fill="#1d2a30",stroke="green")
+        s.text(48,1447,"OUR CCTV EXPERIMENT",14,"green",700)
+        for i in range(3): s.frame(48+i*24,1484-i*8,96,60,i,"blue")
+        s.text(226,1500,"Video frames + question",20)
+        s.line(380,1512,380,1539,"green",arrow=True)
+        s.rect(48,1550,444,64,fill="#254039",stroke="green",r=10)
+        s.text(270,1591,"Laya-Vision · 201M",27,"green",700,"middle")
+        s.text(48,1651,"→ Event + anomaly score",22,weight=700)
+        s.text(48,1683,"Runs directly · no Jev API call",18,"muted")
+    else:
+        s.line(378,410,484,410,"blue",dash=True)
+        s.text(431,366,"Compatible",16,"blue",700,"middle")
+        s.text(431,389,"API",16,"blue",700,"middle")
+        s.text(431,446,"Independent",15,"muted",anchor="middle")
+        s.text(431,468,"models",15,"muted",anchor="middle")
+        s.line(836,410,940,410,"purple",arrow=True)
+        s.text(889,366,"Code",16,"purple",700,"middle")
+        s.text(889,389,"fork",16,"purple",700,"middle")
+        s.text(889,446,"Adds",16,"muted",anchor="middle")
+        s.text(889,468,"vision",16,"muted",anchor="middle")
+        s.text(32,629,"Laya is an independent alternative to Jev.",19,"muted")
+        s.text(720,629,"Laya-Vision replaces the text encoder with a small VLM.",18,"muted")
+        s.rect(32,662,1256,206,fill="#1d2a30",stroke="green")
+        s.text(56,699,"OUR CCTV EXPERIMENT",14,"green",700)
+        for i in range(3): s.frame(56+i*24,738-i*8,96,60,i,"blue")
+        s.text(224,754,"Video frames",22,weight=700)
+        s.text(224,784,"+ question",19,"muted")
+        s.line(402,758,458,758,"green",arrow=True)
+        s.rect(476,722,350,74,fill="#254039",stroke="green",r=10)
+        s.text(651,769,"Laya-Vision · 201M",28,"green",700,"middle")
+        s.line(844,758,900,758,"green",arrow=True)
+        s.text(928,754,"Event + anomaly score",23,weight=700)
+        s.text(928,784,"Numerical outputs",19,"muted")
+        s.text(56,843,"Runs directly · no Jev API call",19,"green")
+    s.finish("decision-model-family"+("-mobile" if mobile else "")+".svg")
+
+
 def pipeline(mobile=False):
     s=SVG(540 if mobile else 1320, 1500 if mobile else 710,
           "CCTV inference inputs, decisions and training path",
@@ -294,7 +407,8 @@ def compact(mobile=False):
 if __name__ == "__main__":
     OUT.mkdir(exist_ok=True)
     for mobile in (False,True):
+        model_family(mobile)
         pipeline(mobile)
         architecture(mobile)
         compact(mobile)
-    print("Built 6 SVGs (desktop and mobile variants).")
+    print("Built 8 SVGs (desktop and mobile variants).")

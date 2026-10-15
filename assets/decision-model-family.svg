@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1320" height="900" viewBox="0 0 1320 900" role="img" aria-labelledby="title desc">
+<title id="title">Jev, Laya and Laya-Vision: what each model does</title><desc id="desc">Jev is TypeSafe&#x27;s hosted decision service. Laya is an independent open-source text decision model with a compatible API, not an official release of Jev&#x27;s weights. Laya-Vision is an independent code fork of Laya that adds image input using a small vision-language backbone. This CCTV experiment uses Laya-Vision directly, without a Jev API call. Shared outputs include choices, scores and yes/no probabilities.</desc>
+<defs><marker id="arrow-bg" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#10171f" stroke-width="1.5"/></marker><marker id="arrow-panel" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#19232e" stroke-width="1.5"/></marker><marker id="arrow-line" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#344354" stroke-width="1.5"/></marker><marker id="arrow-ink" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#edf3fa" stroke-width="1.5"/></marker><marker id="arrow-muted" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#a2b2c3" stroke-width="1.5"/></marker><marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#70baff" stroke-width="1.5"/></marker><marker id="arrow-green" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#83dfb0" stroke-width="1.5"/></marker><marker id="arrow-purple" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#c0adff" stroke-width="1.5"/></marker><marker id="arrow-orange" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M1 1 L7 4 L1 7" fill="none" stroke="#ffbf79" stroke-width="1.5"/></marker></defs>
+<rect width="1320" height="900" rx="20" fill="#10171f"/>
+<text x="32" y="36" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" text-anchor="start">00 / CCTV DECISION MODEL</text>
+<text x="32" y="78" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" text-anchor="start">Meet the decision models</text>
+<rect x="32" y="112" width="1256" height="104" rx="12" fill="#1c2632" stroke="#344354" stroke-width="1.5"/>
+<rect x="56" y="135" width="42" height="55" rx="6" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<path d="M65 150 L89 150" fill="none" stroke="#70baff" stroke-width="2"/>
+<path d="M65 162 L89 162" fill="none" stroke="#70baff" stroke-width="2"/>
+<path d="M65 174 L80 174" fill="none" stroke="#70baff" stroke-width="2"/>
+<text x="118" y="162" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" text-anchor="start">Content + question</text>
+<text x="118" y="190" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start">You define the judgment</text>
+<path d="M392 164 L458 164" fill="none" stroke="#70baff" stroke-width="2" marker-end="url(#arrow-blue)"/>
+<text x="498" y="162" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" text-anchor="start">Decision model</text>
+<text x="498" y="190" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start">Direct numerical answers</text>
+<path d="M760 164 L826 164" fill="none" stroke="#83dfb0" stroke-width="2" marker-end="url(#arrow-green)"/>
+<text x="868" y="147" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" text-anchor="start">CHOOSE</text>
+<text x="868" y="184" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" text-anchor="start">A / B / C</text>
+<text x="1008" y="147" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" text-anchor="start">RATE</text>
+<text x="1008" y="184" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" text-anchor="start">0 … 3</text>
+<text x="1148" y="147" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="12" font-weight="700" text-anchor="start">YES / NO</text>
+<text x="1148" y="184" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" text-anchor="start">0 … 1</text>
+<rect x="32" y="266" width="340" height="324" rx="14" fill="#19232e" stroke="#70baff" stroke-width="1.5"/>
+<text x="56" y="314" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" text-anchor="start">Jev</text>
+<text x="56" y="344" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start">TypeSafe AI</text>
+<path d="M74 424 C52 424 52 395 74 394 C79 367 116 368 122 394 C147 391 150 424 125 424 Z" fill="none" stroke="#70baff" stroke-width="2"/>
+<path d="M76 425 L76 443" fill="none" stroke="#70baff" stroke-width="2"/>
+<circle cx="76" cy="448" r="4" fill="#70baff"/>
+<path d="M99 425 L99 443" fill="none" stroke="#70baff" stroke-width="2"/>
+<circle cx="99" cy="448" r="4" fill="#70baff"/>
+<path d="M122 425 L122 443" fill="none" stroke="#70baff" stroke-width="2"/>
+<circle cx="122" cy="448" r="4" fill="#70baff"/>
+<text x="56" y="470" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" text-anchor="start">Hosted service</text>
+<text x="56" y="501" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start">Call a remote API</text>
+<rect x="56" y="529" width="164" height="32" rx="6" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<text x="138" y="551" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">COMMERCIAL</text>
+<rect x="490" y="266" width="340" height="324" rx="14" fill="#19232e" stroke="#c0adff" stroke-width="1.5"/>
+<text x="514" y="314" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" text-anchor="start">Laya</text>
+<text x="514" y="344" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start">Convai Innovations</text>
+<rect x="514" y="372" width="86" height="21" rx="5" fill="#252239" stroke="#c0adff" stroke-width="1.5"/>
+<circle cx="526" cy="382" r="3" fill="#c0adff"/>
+<path d="M542 382 L587 382" fill="none" stroke="#c0adff" stroke-width="1"/>
+<rect x="514" y="399" width="86" height="21" rx="5" fill="#252239" stroke="#c0adff" stroke-width="1.5"/>
+<circle cx="526" cy="409" r="3" fill="#c0adff"/>
+<path d="M542 409 L587 409" fill="none" stroke="#c0adff" stroke-width="1"/>
+<rect x="514" y="426" width="86" height="21" rx="5" fill="#252239" stroke="#c0adff" stroke-width="1.5"/>
+<circle cx="526" cy="436" r="3" fill="#c0adff"/>
+<path d="M542 436 L587 436" fill="none" stroke="#c0adff" stroke-width="1"/>
+<text x="514" y="470" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" text-anchor="start">Open-source text model</text>
+<text x="514" y="501" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start">Run + fine-tune locally</text>
+<text x="514" y="554" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" text-anchor="start">421M / 322M</text>
+<text x="686" y="554" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" text-anchor="start">parameters</text>
+<rect x="948" y="266" width="340" height="324" rx="14" fill="#1d2a30" stroke="#83dfb0" stroke-width="1.5"/>
+<text x="972" y="314" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" text-anchor="start">Laya-Vision</text>
+<text x="972" y="344" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" text-anchor="start">Independent Laya fork</text>
+<rect x="984" y="372" width="84" height="62" rx="6" fill="#203040" stroke="#83dfb0" stroke-width="1.5"/>
+<path d="M992 420 L1060 420" fill="none" stroke="#344354" stroke-width="2"/>
+<path d="M992 419 L992 386 L1012 386 L1012 419" fill="none" stroke="#344354" stroke-width="2"/>
+<circle cx="1048.08" cy="416.04" r="4" fill="#83dfb0"/>
+<path d="M1042.08 416.04 h-15 l-11 3 M1027.08 416.04 l-8 -5" fill="none" stroke="#83dfb0" stroke-width="2"/>
+<rect x="972" y="388" width="84" height="62" rx="6" fill="#203040" stroke="#83dfb0" stroke-width="1.5"/>
+<path d="M980 436 L1048 436" fill="none" stroke="#344354" stroke-width="2"/>
+<path d="M980 435 L980 402 L1000 402 L1000 435" fill="none" stroke="#344354" stroke-width="2"/>
+<circle cx="1024.08" cy="414.04" r="4" fill="#83dfb0"/>
+<path d="M1024.08 420.04 l0 14 l-8 12 M1024.08 434.04 l9 12 M1024.08 423.04 l-9 6 M1024.08 423.04 l9 6" fill="none" stroke="#83dfb0" stroke-width="2"/>
+<text x="972" y="470" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" text-anchor="start">Visual decision model</text>
+<text x="972" y="501" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start">Images + text questions</text>
+<text x="972" y="554" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" text-anchor="start">201M</text>
+<rect x="1109" y="529" width="146" height="32" rx="6" fill="#254039" stroke="#83dfb0" stroke-width="1.5"/>
+<text x="1182" y="551" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">USED HERE</text>
+<path d="M378 410 L484 410" fill="none" stroke="#70baff" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="431" y="366" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" text-anchor="middle">Compatible</text>
+<text x="431" y="389" fill="#70baff" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" text-anchor="middle">API</text>
+<text x="431" y="446" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="middle">Independent</text>
+<text x="431" y="468" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="400" text-anchor="middle">models</text>
+<path d="M836 410 L940 410" fill="none" stroke="#c0adff" stroke-width="2" marker-end="url(#arrow-purple)"/>
+<text x="889" y="366" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" text-anchor="middle">Code</text>
+<text x="889" y="389" fill="#c0adff" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" text-anchor="middle">fork</text>
+<text x="889" y="446" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" text-anchor="middle">Adds</text>
+<text x="889" y="468" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" text-anchor="middle">vision</text>
+<text x="32" y="629" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="start">Laya is an independent alternative to Jev.</text>
+<text x="720" y="629" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" text-anchor="start">Laya-Vision replaces the text encoder with a small VLM.</text>
+<rect x="32" y="662" width="1256" height="206" rx="14" fill="#1d2a30" stroke="#83dfb0" stroke-width="1.5"/>
+<text x="56" y="699" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="start">OUR CCTV EXPERIMENT</text>
+<rect x="56" y="738" width="96" height="60" rx="6" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<path d="M64 784 L144 784" fill="none" stroke="#344354" stroke-width="2"/>
+<path d="M64 783 L64 752 L84 752 L84 783" fill="none" stroke="#344354" stroke-width="2"/>
+<circle cx="115.52" cy="763.2" r="4" fill="#70baff"/>
+<path d="M115.52 769.2 l0 14 l-8 12 M115.52 783.2 l9 12 M115.52 772.2 l-9 6 M115.52 772.2 l9 6" fill="none" stroke="#70baff" stroke-width="2"/>
+<rect x="80" y="730" width="96" height="60" rx="6" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<path d="M88 776 L168 776" fill="none" stroke="#344354" stroke-width="2"/>
+<path d="M88 775 L88 744 L108 744 L108 775" fill="none" stroke="#344354" stroke-width="2"/>
+<circle cx="139.51999999999998" cy="755.2" r="4" fill="#70baff"/>
+<path d="M139.51999999999998 761.2 l3 14 l-8 12 M142.51999999999998 775.2 l9 12 M139.51999999999998 764.2 l-9 6 M139.51999999999998 764.2 l9 6" fill="none" stroke="#70baff" stroke-width="2"/>
+<rect x="104" y="722" width="96" height="60" rx="6" fill="#203040" stroke="#70baff" stroke-width="1.5"/>
+<path d="M112 768 L192 768" fill="none" stroke="#344354" stroke-width="2"/>
+<path d="M112 767 L112 736 L132 736 L132 767" fill="none" stroke="#344354" stroke-width="2"/>
+<circle cx="163.51999999999998" cy="747.2" r="4" fill="#70baff"/>
+<path d="M163.51999999999998 753.2 l6 14 l-8 12 M169.51999999999998 767.2 l9 12 M163.51999999999998 756.2 l-9 6 M163.51999999999998 756.2 l9 6" fill="none" stroke="#70baff" stroke-width="2"/>
+<text x="224" y="754" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" text-anchor="start">Video frames</text>
+<text x="224" y="784" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="start">+ question</text>
+<path d="M402 758 L458 758" fill="none" stroke="#83dfb0" stroke-width="2" marker-end="url(#arrow-green)"/>
+<rect x="476" y="722" width="350" height="74" rx="10" fill="#254039" stroke="#83dfb0" stroke-width="1.5"/>
+<text x="651" y="769" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700" text-anchor="middle">Laya-Vision · 201M</text>
+<path d="M844 758 L900 758" fill="none" stroke="#83dfb0" stroke-width="2" marker-end="url(#arrow-green)"/>
+<text x="928" y="754" fill="#edf3fa" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="700" text-anchor="start">Event + anomaly score</text>
+<text x="928" y="784" fill="#a2b2c3" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="start">Numerical outputs</text>
+<text x="56" y="843" fill="#83dfb0" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="400" text-anchor="start">Runs directly · no Jev API call</text>
+</svg>

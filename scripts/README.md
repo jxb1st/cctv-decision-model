@@ -1,6 +1,8 @@
 # Architecture figures
 
-Run `python3 scripts/build_architecture_figures.py` from the repository root to regenerate the three SVG diagrams and their mobile variants. No third-party packages are required. The diagrams use schematic frames and illustrative scores, not private CCTV footage or additional experimental predictions.
+Run `python3 scripts/build_architecture_figures.py` from the repository root to regenerate the four SVG diagrams and their mobile variants. No third-party packages are required. The diagrams use schematic frames and illustrative scores, not private CCTV footage or additional experimental predictions.
+
+The introductory model map distinguishes Jev's hosted service, Laya's independent compatible implementation, and Laya-Vision's code fork. Its dashed connection denotes interface compatibility, not shared weights or an official open-source Jev release. The solid arrow denotes a code extension. The highlighted CCTV path uses only Laya-Vision. Sources are linked below the figure; Laya's 421M/322M labels refer to its English/multilingual text checkpoints.
 
 The architecture corresponds to `thaitea/laya-vision` at revision `f2fe3c12cb6d04c59d8a190250bf3fb40fc828dc`. Sources are linked next to the figures in `index.html`; the training settings come from this page's reported experiment. The diagrams distinguish parameter reduction from avoiding answer generation and do not claim that output probabilities are automatically calibrated.
 

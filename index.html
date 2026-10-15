@@ -26,6 +26,14 @@
 
   <nav class="exp-toc" data-toc aria-label="Sections"></nav>
 
+  <section class="exp-section visual-section"><h2 id="meet-the-models">Meet the Models</h2>
+    <figure class="fig architecture-figure">
+      <picture><source media="(max-width: 640px)" srcset="assets/decision-model-family-mobile.svg"><img src="assets/decision-model-family.svg" width="1320" height="900" alt="Jev is TypeSafe's hosted decision service. Laya is an independent open-source text decision model with a compatible API. Laya-Vision is an independent code fork of Laya that adds image input. The dashed link means interface compatibility, not shared model weights; the solid arrow means a code extension. Our CCTV experiment uses the 201M Laya-Vision model directly, with no Jev API call."></picture>
+      <figcaption><span>Three projects. This study uses Laya-Vision.</span><span class="figure-actions"><button type="button" data-diagram="assets/decision-model-family.svg" data-mobile-diagram="assets/decision-model-family-mobile.svg" data-diagram-title="Jev, Laya and Laya-Vision">Expand figure</button><a href="assets/decision-model-family.svg" download>SVG ↓</a></span></figcaption>
+    </figure>
+    <div class="diagram-sources" aria-label="Model relationship sources"><span>Sources</span><a href="https://docs.typesafe.ai/introduction" target="_blank" rel="noopener noreferrer">Jev ↗</a><a href="https://github.com/NandhaKishorM/laya#self-hosting-http-server-jev-compatible" target="_blank" rel="noopener noreferrer">Laya ↗</a><a href="https://github.com/r33drichards/laya-vision#credits" target="_blank" rel="noopener noreferrer">Laya-Vision ↗</a></div>
+  </section>
+
   <section class="exp-section"><h2 id="overview">Overview</h2>
     <div class="experiment-levels" aria-label="Experiment variants">
       <div class="level-card"><span class="level-id">LEVEL 1</span><strong>1 frame</strong><span>Laya-Vision · zero-shot</span></div>
